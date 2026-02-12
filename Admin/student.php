@@ -111,7 +111,7 @@ Online Library
 body{
     min-height: 100vh;
     margin: 0;
-    background: url("../img/backgroud.jpg") no-repeat center center/cover;
+    background: url("../img/back.jpg") no-repeat center center/cover;
     font-family: Arial, sans-serif;
 }
 

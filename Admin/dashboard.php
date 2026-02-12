@@ -26,7 +26,7 @@ if(isset($_COOKIE['admin_id'])){
    
 body{
     min-height: 100vh;
-    background: url("../img/backgroud.jpg") no-repeat center center/cover;
+    background: url("../img/back.jpg") no-repeat center center/cover;
 }
 
 .dashboard .box-container {
@@ -43,12 +43,11 @@ body{
     border: var(--border);
     padding: 2rem;
     box-shadow: var(--box-shadow);
-    background-color: rgba(255, 255, 255, 0.448);
-}
+    background: #d8cfcf93;
+   }
 
 .dashboard .box-container h3 {
     font-size: 2.5rem;
-    color: var(--black);
     padding-bottom: .5rem;
 }
 

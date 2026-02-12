@@ -54,10 +54,8 @@ if(isset($_POST['submit'])){
 
 body{
     min-height: 100vh;
-    background: url("../img/backgroud.jpg") no-repeat center center/cover;
+    background: url("../img/back.jpg") no-repeat center center/cover;
 }
-
-
 
 .form-container{
     min-height: 100vh;
@@ -72,7 +70,7 @@ body{
     width: 100%;
     max-width: 380px;
     padding: 35px 30px;
-    backdrop-filter: blur(10px);
+    background: #f2efef63;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     text-align: center;
@@ -82,7 +80,6 @@ body{
 .form-container form h3{
     font-size: 26px;
     margin-bottom: 25px;
-    color: #333;
     font-weight: 600;
 }
 

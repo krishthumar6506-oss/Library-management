@@ -17,7 +17,7 @@ session_start();
 <style>
 body{
     min-height: 100vh;
-    background: url("../img/backgroud.jpg") no-repeat center center/cover;
+    background: url("../img/back.jpg") no-repeat center center/cover;
     font-family: Arial, sans-serif;
 }
 
@@ -29,8 +29,7 @@ body{
 }
 
 .box{
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
+    background: #ddd5d5af;
     width: 100%;
     max-width: 500px;
     border-radius: 8px;
@@ -46,7 +45,6 @@ body{
 .box-title{
     font-size: 20px;
     font-weight: bold;
-    color: #333;
 }
 
 .box-body{
@@ -61,7 +59,6 @@ body{
     display: block;
     font-weight: 600;
     margin-bottom: 5px;
-    color: #555;
 }
 
 .form-control{
@@ -74,9 +71,8 @@ body{
 .btn{
     width: 100%;
     padding: 14px;
-    border-radius: 30px;
     border: none;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #805100;
     color: #fff;
     font-size: 16px;
     font-weight: 600;

@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <title>Header Design</title>
 
-<!-- Bootstrap 5 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
@@ -34,7 +33,6 @@ header {
     gap: 40px;
 }
 
-/* ===== LOGO ===== */
 .logo-img {
     width: 70px;
     height: 70px;
@@ -47,7 +45,6 @@ header {
     transform: rotate(360deg);
 }
 
-/* ===== BRAND TEXT ===== */
 .navbar-brand {
     font-size: 24px;
     font-weight: bold;
@@ -58,7 +55,6 @@ header {
     text-decoration: none;
 }
 
-/* ===== NAV BUTTON ===== */
 .but {
     text-decoration: none;
     padding: 10px 25px;
@@ -83,13 +79,11 @@ header {
 <header>
 <nav class="navbar-custom">
 
-    <!-- LOGO + NAME -->
     <a href="home.php" class="navbar-brand">
         <img src="img/LOGO.jpeg" alt="Logo" class="logo-img">
         Page Turner
     </a>
 
-    <!-- NAV LINKS -->
     <a href="home.php" class="but">Home</a>
     <a href="search.php" class="but" >Search <i class="fa-brands fa-searchengin"></i></a>
     <a href="About Us.php" class="but">About Us</a>

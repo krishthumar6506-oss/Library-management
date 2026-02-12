@@ -29,7 +29,7 @@ body {
 }
 
 .form-container form{
-    backdrop-filter: blur(8px);
+    background: #b6a3a3b2;
     padding: 35px 30px;
     width: 100%;
     max-width: 380px;
@@ -49,24 +49,14 @@ body {
     padding: 14px 15px;
     margin: 12px 0;
     border-radius: 30px;
+    background: #ffffffb3;
     border: 1px solid #ccc;
     outline: none;
     font-size: 15px;
     transition: 0.3s;
 }
 
-.form-container .box:focus{
-    border-color: #5a67d8;
-    box-shadow: 0 0 0 3px rgba(90,103,216,0.2);
-}
-
 .form-container .btn{
-    width: 100%;
-    margin-top: 20px;
-    padding: 14px;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
     font-weight: 600;
     color: #fff;
     background: linear-gradient(135deg, #667eea, #764ba2);

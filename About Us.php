@@ -44,7 +44,7 @@ body {
    line-height: 2;
    padding: 1rem 0;
    font-size: 20px;
-   color: var(--light-color);
+    background: #b6a3a34c;
 }
 
 
@@ -59,7 +59,7 @@ body {
     font-size: 32px;
     margin-bottom: 60px;
     color: #000000;
-    backdrop-filter: blur(8px);
+    background: #b6a3a3e1;
     padding: 3px 5px;
     border-radius: 16px;
 }
@@ -73,9 +73,8 @@ body {
     margin: auto;
 }
 
-/* Step box */
-.services .box{
-    background: #fff;
+.steps .box{
+    background: #b6a3a3af;
     padding: 30px 25px;
     border-radius: 16px;
     text-align: center;
@@ -93,21 +92,6 @@ body {
 .steps .box img{
     width: 90px;
     margin-bottom: 20px;
-}
-
-/* Title */
-.steps .box h3{
-    font-size: 20px;
-    margin-bottom: 10px;
-    text-transform: capitalize;
-    color: #222;
-}
-
-/* Text */
-.steps .box p{
-    font-size: 15px;
-    line-height: 1.6;
-    color: #666;
 }
 
 </style>

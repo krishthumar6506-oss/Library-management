@@ -74,9 +74,9 @@
       </div>
 
       <div class="box">
-         <a href="https://www.facebook.com/profile.php?id=61568173245556&mibextid=ZbWKwL"><span>Facebook</span><i class="fab fa-facebook-f"></i></a>
-         <a href="https://x.com/HomeHeaven_"><span>Twitter</span><i class="fab fa-twitter"></i></a>
-         <a href="https://www.instagram.com/homeheaven2025?igsh=ZWMxcXVvcGc5YWlh"><span>Instagram</span><i class="fab fa-instagram"></i></a>
+         <a href="#"><span>Facebook</span><i class="fab fa-facebook-f"></i></a>
+         <a href="#"><span>Twitter</span><i class="fab fa-twitter"></i></a>
+         <a href="#"><span>Instagram</span><i class="fab fa-instagram"></i></a>
 
       </div>
 

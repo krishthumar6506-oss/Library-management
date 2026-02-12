@@ -13,12 +13,10 @@ body {
     background-size: cover;
 }
 
-    /* ===== SERVICES SECTION ===== */
 .services{
     padding: 60px 20px;
 }
 
-/* Heading */
 .services .heading{
     text-align: center;
     font-size: 32px;
@@ -27,7 +25,6 @@ body {
     text-transform: capitalize;
 }
 
-/* Container */
 .services .box-container{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -36,9 +33,8 @@ body {
     margin: auto;
 }
 
-/* Service box */
 .services .box{
-    background: #fff;
+    background: #b6a3a3d3;
     padding: 30px 25px;
     border-radius: 16px;
     text-align: center;
@@ -46,44 +42,26 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Hover effect */
 .services .box:hover{
     transform: translateY(-8px);
     box-shadow: 0 18px 35px rgba(0,0,0,0.15);
 }
 
-/* Image */
 .services .box img{
     width: 90px;
     margin-bottom: 20px;
 }
 
-/* Title */
 .services .box h3{
     font-size: 20px;
     margin-bottom: 10px;
     text-transform: capitalize;
-    color: #222;
+    color: #000000;
 }
 
-/* Text */
 .services .box p{
     font-size: 15px;
     line-height: 1.6;
-    color: #666;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px){
-    .services .box-container{
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px){
-    .services .box-container{
-        grid-template-columns: 1fr;
-    }
 }
 
 </style>

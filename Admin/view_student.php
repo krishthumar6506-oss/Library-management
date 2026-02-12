@@ -21,7 +21,7 @@
   <style>
       body{
       min-height: 100vh;
-      background: url("../img/backgroud.jpg") no-repeat center center/cover;
+      background: url("../img/back.jpg") no-repeat center center/cover;
   }
 
   /* COLUMN FIX */
@@ -32,7 +32,7 @@
 
   /* BOX */
   .box{
-    background:#fff;
+    background: #b6a3a3af;
     border-radius:6px;
     box-shadow:0 2px 8px rgba(0,0,0,0.08);
   }
@@ -48,7 +48,7 @@
   }
 
   .table thead th{
-    background:#f8f9fa;
+    background: #b6a3a3af;
     font-weight:600;
     padding:12px;
     text-align:left;

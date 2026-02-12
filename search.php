@@ -37,11 +37,46 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
   body {
     background: url("img/backgroundd.jpg") no-repeat center center fixed;
     background-size: cover;
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: Arial, sans-serif;
   }
+
+  .container {
+    background: #ffffff;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 5px;
+  }
+
+  .input-group input {
+    border-radius: 4px 0 0 4px;
+  }
+
+  .input-group button {
+    border-radius: 0 4px 4px 0;
+  }
+
+  table {
+    background: #ffffff;
+  }
+
+  th {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+  }
+
+  td {
+    text-align: center;
+  }
+
+  tr:hover {
+    background-color: #f2f2f2;
+  }
+  
 </style>
 
 <body>
+<?php include 'components/hearder.php'; ?>
 <div class="container" style="margin-top:50px;">
 
   <!-- SEARCH BOX -->
@@ -104,5 +139,6 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </table>
 
 </div>
+<?php include 'components/footer.php'; ?>
 </body>
 </html>
