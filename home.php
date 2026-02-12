@@ -75,37 +75,37 @@ body {
    <div class="box-container">
 
       <div class="box">
-         <img src="images/icon-1.png" alt="">
+         <img src="img/img1.png" alt="">
          <h3>Book Search</h3>
          <p>Easily search books by title, author, or category in the library.</p>
       </div>
 
       <div class="box">
-         <img src="images/icon-2.png" alt="">
+         <img src="img/img2.png" alt="">
          <h3>Book Issue</h3>
          <p>Quickly issue books to students with proper tracking and records.</p>
       </div>
 
       <div class="box">
-         <img src="images/icon-3.png" alt="">
+         <img src="img/img3.png" alt="">
          <h3>Book Return</h3>
          <p>Return borrowed books easily with updated return history.</p>
       </div>
 
       <div class="box">
-         <img src="images/icon-4.png" alt="">
+         <img src="img/img4.png" alt="">
          <h3>Digital Library</h3>
          <p>Access e-books and digital resources anytime, anywhere.</p>
       </div>
 
       <div class="box">
-         <img src="images/icon-5.png" alt="">
+         <img src="img/img5.png" alt="">
          <h3>User Management</h3>
          <p>Manage student and member accounts efficiently.</p>
       </div>
 
       <div class="box">
-         <img src="images/icon-6.png" alt="">
+         <img src="img/img6.png" alt="">
          <h3>24/7 Support</h3>
          <p>Get assistance and library access support at any time.</p>
       </div>
