@@ -1,0 +1,32 @@
+.dashboard .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 35rem);
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.dashboard .box-container .box {
+    text-align: center;
+    border-radius: .5rem;
+    border: var(--border);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    background-color: rgba(255, 255, 255, 0.448);
+}
+
+.dashboard .box-container h3 {
+    font-size: 2.5rem;
+    color: var(--black);
+    padding-bottom: .5rem;
+}
+
+.dashboard .box-container p {
+    border: var(--border);
+    border-radius: .5rem;
+    padding: 1.5rem;
+    font-size: 1.8rem;
+    color: var (--light-color);
+    background-color: var(--light-bg);
+    margin: 1rem 0;
+}
