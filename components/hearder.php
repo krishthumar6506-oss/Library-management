@@ -87,6 +87,7 @@ header {
     <a href="home.php" class="but">Home</a>
     <a href="search.php" class="but" >Search <i class="fa-brands fa-searchengin"></i></a>
     <a href="About Us.php" class="but">About Us</a>
+    <a href="Notes.php" class="but">Notes</a>
     <a href="login.php" class="but">Login</a>
 
 </nav>
