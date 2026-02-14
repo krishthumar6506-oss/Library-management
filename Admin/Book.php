@@ -99,22 +99,22 @@ body{
 
 <div class="form-group">
     <label>ISBN</label>
-    <input type="text" name="isbn" class="form-control" required>
+    <input type="text" name="isbn" placeholder="Enter International Standard Book Number" class="form-control" required>
 </div>
 
 <div class="form-group">
     <label>Title</label>
-    <input type="text" name="title" class="form-control" required>
+    <input type="text" name="title" placeholder="Enter Book Title" class="form-control" required>
 </div>
 
 <div class="form-group">
     <label>Author</label>
-    <input type="text" name="author" class="form-control" required>
+    <input type="text" name="author" placeholder="Enter author name" class="form-control" required>
 </div>
 
 <div class="form-group">
     <label>Publisher</label>
-    <input type="text" name="publisher" class="form-control" required>
+    <input type="text" name="publisher" placeholder="Enter publisher name" class="form-control" required>
 </div>
 
 <div class="form-group">

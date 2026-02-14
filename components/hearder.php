@@ -99,7 +99,7 @@ header {
             Welcome, <?php echo $_SESSION['student_name']; ?>
         </span>
 
-        <a href="components/student_logout.php"
+        <a href="components/user_logout.php"
            class="but"
            onclick="return confirm('Logout from this website?');">
            Logout

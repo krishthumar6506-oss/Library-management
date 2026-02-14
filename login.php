@@ -17,9 +17,10 @@ if(isset($_POST['login'])){
 
             $_SESSION['student_id'] = $row['id'];
             $_SESSION['student_name'] = $row['firstname'];
-
+            $_SESSION['success'] = 'Admin login successful!';
             header('Location: home.php');
             exit;
+
 
         } else {
             $error = "Incorrect password";
@@ -37,7 +38,7 @@ if(isset($_POST['login'])){
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Login</title>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
 </head>
@@ -122,9 +123,17 @@ body {
    <form action="" method="POST">
       <h3>Student Login</h3>
 
-      <?php if(isset($error)){ ?>
-         <p style="color:red;"><?php echo $error; ?></p>
-      <?php } ?>
+<?php if(isset($error)) { ?>
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Login Failed',
+    text: '<?php echo $error; ?>',
+    confirmButtonColor: '#764ba2'
+});
+</script>
+<?php } ?>
+
 
       <input type="email" name="email" required placeholder="Enter Email" class="boxx">
       <input type="password" name="pass" required placeholder="Enter Password" class="boxx">

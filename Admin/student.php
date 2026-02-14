@@ -9,7 +9,6 @@ require_once __DIR__ . '/../PHPMailer/src/Exception.php';
 require_once __DIR__ . '/../PHPMailer/src/PHPMailer.php';
 require_once __DIR__ . '/../PHPMailer/src/SMTP.php';
 
-/* ===== AUTH CHECK ===== */
 if (!isset($_COOKIE['admin_id'])) {
     header('Location: login.php');
     exit;
@@ -17,17 +16,15 @@ if (!isset($_COOKIE['admin_id'])) {
 
 if (isset($_POST['add'])) {
 
-    $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
-    $lastname  = filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
+    $firstname = filter_var($_POST['firstname']);
+    $lastname  = filter_var($_POST['lastname']);
     $email     = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $mobile    = filter_var($_POST['mobile'], FILTER_SANITIZE_STRING);
+    $mobile    = filter_var($_POST['mobile']);
     $gender    = $_POST['gender'];
 
-    // PASSWORD
     $plainPassword = $_POST['password']; // for email
     $password = password_hash($plainPassword, PASSWORD_DEFAULT);
 
-    /* ===== CHECK EMAIL ===== */
     $check = $conn->prepare("SELECT id FROM students WHERE email = ?");
     $check->execute([$email]);
 
@@ -37,7 +34,7 @@ if (isset($_POST['add'])) {
         exit;
     }
 
-    /* ===== INSERT STUDENT ===== */
+    /* INSERT STUDENT */
     $insert = $conn->prepare(
         "INSERT INTO students 
         (firstname, lastname, email, password, mobile, gender, created_on)
@@ -46,7 +43,7 @@ if (isset($_POST['add'])) {
 
     if ($insert->execute([$firstname, $lastname, $email, $password, $mobile, $gender])) {
 
-        /* ===== SEND EMAIL ===== */
+        /* SEND EMAIL  */
         $mail = new PHPMailer(true);
 
         try {
@@ -108,15 +105,12 @@ Online Library
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 <style>
-/* Background */
+
 body{
-    min-height: 100vh;
-    margin: 0;
     background: url("../img/back.jpg") no-repeat center center/cover;
     font-family: Arial, sans-serif;
 }
 
-/* Center everything */
 .container{
     min-height: 100vh;
     display: flex;
@@ -124,85 +118,77 @@ body{
     align-items: center;
 }
 
-/* Glass form box */
 .box{
+   background: #ddd5d5bc;
     width: 100%;
-    max-width: 520px;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 18px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-    padding: 30px 28px;
-    border: 1px solid rgba(255,255,255,0.3);
+    padding: 25px 25px;
+    max-width: 600px;
+    border-radius: 5px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 }
 
-/* Header */
 .box-header{
     text-align: center;
-    margin-bottom: 20px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
 }
 
 .box-title{
-    font-size: 24px;
-    font-weight: 600;
-    color: #222;
+    font-size: 20px;
+    font-weight: bold;
 }
 
-/* Form groups */
+.box-body{
+    padding: 20px;
+}
 .form-group{
-    margin-bottom: 14px;
+    margin-bottom: 15px;
 }
 
 .form-group label{
-    font-size: 14px;
+    display: block;
     font-weight: 600;
-    color: #333;
+    margin-bottom: 5px;
 }
 
-/* Inputs */
 .form-control{
     width: 100%;
-    padding: 13px 16px;
-    border-radius: 30px;
+    padding: 10px;
+    border-radius: 5px;
     border: 1px solid #ccc;
-    font-size: 14px;
-    outline: none;
-    transition: 0.3s;
 }
 
-.form-control:focus{
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102,126,234,0.35);
-}
 
-/* Radio buttons */
 .form-group input[type="radio"]{
     margin-right: 6px;
 }
+.box-footer{
+    padding: 15px 20px 20px;
+}
 
-/* Button */
 .btn{
-    width: 100%;
+ width: 100%;
     padding: 14px;
-    border-radius: 30px;
     border: none;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #805100;
     color: #fff;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.btn:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
-}
-
-/* Footer spacing */
 .box-footer{
     margin-top: 10px;
+}
+::placeholder{
+   color: #999;
+   font-size: 14px;
+}
+
+.text-danger{
+    color: red;
+    font-size: 12px;
+    font-weight: 700;
 }
 </style>
 
@@ -225,38 +211,41 @@ if(isset($_SESSION['error'])){
     unset($_SESSION['error']);
 }
 ?>
+<br>
 
 
 
-<div class="container">
 <div class="container">
 <div class="box box-primary">
 <div class="box-header with-border">
 <h3 class="box-title">Add New Student</h3>
 </div>
 <form method="POST" id="studentForm">
-
 <div class="form-group">
 <label>Firstname</label>
-<input type="text" id="firstName" name="firstname" class="form-control">
+<input type="text" id="firstName" name="firstname" 
+       class="form-control" placeholder="Enter your first name">
 <small id="fname_error"></small>
 </div>
 
 <div class="form-group">
 <label>Lastname</label>
-<input type="text" id="lastName" name="lastname" class="form-control">
+<input type="text" id="lastName" name="lastname" 
+       class="form-control" placeholder="Enter your last name">
 <small id="lname_error"></small>
 </div>
 
 <div class="form-group">
 <label>Email</label>
-<input type="email" id="email" name="email" class="form-control">
+<input type="email" id="email" name="email" 
+       class="form-control" placeholder="Enter your email address">
 <small id="email_error"></small>
 </div>
 
 <div class="form-group">
 <label>Mobile</label>
-<input type="text" id="mobile" name="mobile" class="form-control">
+<input type="text" id="mobile" name="mobile" 
+       class="form-control" placeholder="Enter 10 digit mobile number">
 <small id="mobile_error"></small>
 </div>
 
@@ -271,16 +260,17 @@ if(isset($_SESSION['error'])){
 
 <div class="form-group">
 <label>Password</label>
-<input type="password" id="password" name="password" class="form-control">
+<input type="password" id="password" name="password" 
+       class="form-control" placeholder="Enter strong password">
 <small id="password_error"></small>
 </div>
 
 <div class="box-footer">
 <button type="submit" name="add" class="btn btn-primary btn-block">
 <i class="fa fa-save"></i> Save
+<br>
 </div>
 </form>
-</div>
 </div>
 </div>
 </body>
@@ -289,7 +279,7 @@ $(document).ready(function () {
 
     $('#studentForm').submit(function (e) {
 
-        // ================= FIRST NAME =================
+        // FIRST NAME
         var fname = $('#firstName').val().trim();
         var fname_regex = /^[a-zA-Z]+$/;
 
@@ -303,18 +293,13 @@ $(document).ready(function () {
             $('#firstName').addClass("is-invalid");
             validate_fname = false;
         }
-        else if (!fname_regex.test(fname)) {
-            $('#fname_error').text("Name must contain only letters").addClass('text-danger');
-            $('#firstName').addClass("is-invalid");
-            validate_fname = false;
-        }
         else {
             $('#fname_error').text("");
             $('#firstName').removeClass("is-invalid").addClass("is-valid");
             validate_fname = true;
         }
 
-        // ================= LAST NAME =================
+        // LAST NAME
         var lname = $('#lastName').val().trim();
         var lname_regex = /^[a-zA-Z]+$/;
 
@@ -328,18 +313,13 @@ $(document).ready(function () {
             $('#lastName').addClass("is-invalid");
             validate_lname = false;
         }
-        else if (!lname_regex.test(lname)) {
-            $('#lname_error').text("Name must contain only letters").addClass('text-danger');
-            $('#lastName').addClass("is-invalid");
-            validate_lname = false;
-        }
         else {
             $('#lname_error').text("");
             $('#lastName').removeClass("is-invalid").addClass("is-valid");
             validate_lname = true;
         }
 
-        // ================= EMAIL =================
+        //EMAIL
         var email = $('#email').val().trim();
         var email_regex = /^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$/;
 
@@ -359,7 +339,7 @@ $(document).ready(function () {
             validate_email = true;
         }
 
-        // ================= MOBILE =================
+        // MOBILE
         var mobile = $('#mobile').val().trim();
         var mobile_regex = /^[0-9]{10}$/;
 
@@ -379,7 +359,7 @@ $(document).ready(function () {
             validate_mobile = true;
         }
 
-        // ================= GENDER =================
+        //GENDER
         if ($('input[name="gender"]:checked').length == 0) {
             $('#gender_error').text("Please select gender").addClass('text-danger');
             var validate_gender = false;
@@ -388,7 +368,7 @@ $(document).ready(function () {
             validate_gender = true;
         }
 
-        // ================= PASSWORD =================
+        //PASSWORD 
         var password = $('#password').val();
         var password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$/;
 
@@ -408,7 +388,7 @@ $(document).ready(function () {
             validate_password = true;
         }
 
-        // ================= FINAL CHECK =================
+        //FINAL CHECK
         if (
             validate_fname == false ||
             validate_lname == false ||
