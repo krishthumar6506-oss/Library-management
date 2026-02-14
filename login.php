@@ -1,19 +1,47 @@
+<?php
+session_start();
+include 'components/connect.php';
+
+if(isset($_POST['login'])){
+
+    $email = $_POST['email'];
+    $password = $_POST['pass'];
+
+    $sql = $conn->prepare("SELECT * FROM students WHERE email = ?");
+    $sql->execute([$email]);
+    $row = $sql->fetch(PDO::FETCH_ASSOC);
+
+    if($row){
+
+        if(password_verify($password, $row['password'])){
+
+            $_SESSION['student_id'] = $row['id'];
+            $_SESSION['student_name'] = $row['firstname'];
+
+            header('Location: home.php');
+            exit;
+
+        } else {
+            $error = "Incorrect password";
+        }
+
+    } else {
+        $error = "Email not found";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
    <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Login</title>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
    <link rel="stylesheet" href="css/style.css">
-
 </head>
-<body>
-   
+
 <style>
 body {
     background: url("img/backgroundd.jpg") no-repeat center center;
@@ -64,28 +92,47 @@ body {
     transition: 0.3s ease;
 }
 
+.boxx{
+    width: 100%;
+    padding: 14px 15px;
+    margin: 12px 0;
+    border-radius: 30px;
+    background: #ffffffb3;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 15px;
+}
 
-
+.btn{
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 30px;
+    border: none;
+    width: 100%;
+}
 </style>
-<?php include 'components/hearder.php'; ?>
+<body>
+
+<?php include 'components/header.php'; ?>
 
 <section class="form-container">
+   <form action="" method="POST">
+      <h3>Student Login</h3>
 
-   <form action="" method="post">
-      <h3>Welcome Back!</h3>
-      <input type="email" name="email" required maxlength="50" placeholder="Enter your Email" class="box">
-      <input type="password" name="pass" required maxlength="20" placeholder="Enter your Password" class="box"><br>
-      
-      <input type="submit" value="login now" name="submit" class="btn">
+      <?php if(isset($error)){ ?>
+         <p style="color:red;"><?php echo $error; ?></p>
+      <?php } ?>
+
+      <input type="email" name="email" required placeholder="Enter Email" class="boxx">
+      <input type="password" name="pass" required placeholder="Enter Password" class="boxx">
+      <input type="submit" name="login" value="Login Now" class="btn">
    </form>
-
-
-   
 </section>
 
-
 <?php include 'components/footer.php'; ?>
-
 
 </body>
 </html>

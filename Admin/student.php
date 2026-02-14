@@ -102,6 +102,7 @@ Online Library
 <head>
 <meta charset="UTF-8">
 <title>Add Student</title>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <link rel="stylesheet" href="../components/admin_style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -233,53 +234,195 @@ if(isset($_SESSION['error'])){
 <div class="box-header with-border">
 <h3 class="box-title">Add New Student</h3>
 </div>
-
-<form method="POST">
-<div class="box-body">
+<form method="POST" id="studentForm">
 
 <div class="form-group">
 <label>Firstname</label>
-<input type="text" name="firstname" class="form-control" required>
+<input type="text" id="firstName" name="firstname" class="form-control">
+<small id="fname_error"></small>
 </div>
 
 <div class="form-group">
 <label>Lastname</label>
-<input type="text" name="lastname" class="form-control" required>
+<input type="text" id="lastName" name="lastname" class="form-control">
+<small id="lname_error"></small>
 </div>
 
 <div class="form-group">
 <label>Email</label>
-<input type="email" name="email" class="form-control" required>
+<input type="email" id="email" name="email" class="form-control">
+<small id="email_error"></small>
 </div>
 
 <div class="form-group">
 <label>Mobile</label>
-<input type="text" name="mobile" class="form-control" required>
+<input type="text" id="mobile" name="mobile" class="form-control">
+<small id="mobile_error"></small>
 </div>
 
 <div class="form-group">
 <label>Gender</label><br>
-<label><input type="radio" name="gender" value="Male" required> Male</label>
+<label><input type="radio" name="gender" value="Male"> Male</label>
 <label><input type="radio" name="gender" value="Female"> Female</label>
 <label><input type="radio" name="gender" value="Other"> Other</label>
+<br>
+<small id="gender_error"></small>
 </div>
 
 <div class="form-group">
 <label>Password</label>
-<input type="password" name="password" class="form-control" required>
-</div>
-
+<input type="password" id="password" name="password" class="form-control">
+<small id="password_error"></small>
 </div>
 
 <div class="box-footer">
 <button type="submit" name="add" class="btn btn-primary btn-block">
 <i class="fa fa-save"></i> Save
-</button>
 </div>
 </form>
 </div>
 </div>
-
+</div>
 </body>
+<script>
+$(document).ready(function () {
+
+    $('#studentForm').submit(function (e) {
+
+        // ================= FIRST NAME =================
+        var fname = $('#firstName').val().trim();
+        var fname_regex = /^[a-zA-Z]+$/;
+
+        if (fname == "") {
+            $('#fname_error').text("Firstname is required").addClass('text-danger');
+            $('#firstName').addClass("is-invalid");
+            var validate_fname = false;
+        }
+        else if (fname.length < 3) {
+            $('#fname_error').text("Minimum length is 3 characters").addClass('text-danger');
+            $('#firstName').addClass("is-invalid");
+            validate_fname = false;
+        }
+        else if (!fname_regex.test(fname)) {
+            $('#fname_error').text("Name must contain only letters").addClass('text-danger');
+            $('#firstName').addClass("is-invalid");
+            validate_fname = false;
+        }
+        else {
+            $('#fname_error').text("");
+            $('#firstName').removeClass("is-invalid").addClass("is-valid");
+            validate_fname = true;
+        }
+
+        // ================= LAST NAME =================
+        var lname = $('#lastName').val().trim();
+        var lname_regex = /^[a-zA-Z]+$/;
+
+        if (lname == "") {
+            $('#lname_error').text("Lastname is required").addClass('text-danger');
+            $('#lastName').addClass("is-invalid");
+            var validate_lname = false;
+        }
+        else if (lname.length < 3) {
+            $('#lname_error').text("Minimum length is 3 characters").addClass('text-danger');
+            $('#lastName').addClass("is-invalid");
+            validate_lname = false;
+        }
+        else if (!lname_regex.test(lname)) {
+            $('#lname_error').text("Name must contain only letters").addClass('text-danger');
+            $('#lastName').addClass("is-invalid");
+            validate_lname = false;
+        }
+        else {
+            $('#lname_error').text("");
+            $('#lastName').removeClass("is-invalid").addClass("is-valid");
+            validate_lname = true;
+        }
+
+        // ================= EMAIL =================
+        var email = $('#email').val().trim();
+        var email_regex = /^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$/;
+
+        if (email == "") {
+            $('#email_error').text("Email is required").addClass('text-danger');
+            $('#email').addClass("is-invalid");
+            var validate_email = false;
+        }
+        else if (!email_regex.test(email)) {
+            $('#email_error').text("Enter valid email address").addClass('text-danger');
+            $('#email').addClass("is-invalid");
+            validate_email = false;
+        }
+        else {
+            $('#email_error').text("");
+            $('#email').removeClass("is-invalid").addClass("is-valid");
+            validate_email = true;
+        }
+
+        // ================= MOBILE =================
+        var mobile = $('#mobile').val().trim();
+        var mobile_regex = /^[0-9]{10}$/;
+
+        if (mobile == "") {
+            $('#mobile_error').text("Mobile number is required").addClass('text-danger');
+            $('#mobile').addClass("is-invalid");
+            var validate_mobile = false;
+        }
+        else if (!mobile_regex.test(mobile)) {
+            $('#mobile_error').text("Enter valid 10 digit number").addClass('text-danger');
+            $('#mobile').addClass("is-invalid");
+            validate_mobile = false;
+        }
+        else {
+            $('#mobile_error').text("");
+            $('#mobile').removeClass("is-invalid").addClass("is-valid");
+            validate_mobile = true;
+        }
+
+        // ================= GENDER =================
+        if ($('input[name="gender"]:checked').length == 0) {
+            $('#gender_error').text("Please select gender").addClass('text-danger');
+            var validate_gender = false;
+        } else {
+            $('#gender_error').text("");
+            validate_gender = true;
+        }
+
+        // ================= PASSWORD =================
+        var password = $('#password').val();
+        var password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$/;
+
+        if (password == "") {
+            $('#password_error').text("Password is required").addClass('text-danger');
+            $('#password').addClass("is-invalid");
+            var validate_password = false;
+        }
+        else if (!password_regex.test(password)) {
+            $('#password_error').text("Password must contain 8 characters, uppercase, lowercase, number & special character").addClass('text-danger');
+            $('#password').addClass("is-invalid");
+            validate_password = false;
+        }
+        else {
+            $('#password_error').text("");
+            $('#password').removeClass("is-invalid").addClass("is-valid");
+            validate_password = true;
+        }
+
+        // ================= FINAL CHECK =================
+        if (
+            validate_fname == false ||
+            validate_lname == false ||
+            validate_email == false ||
+            validate_mobile == false ||
+            validate_gender == false ||
+            validate_password == false
+        ) {
+            e.preventDefault();
+        }
+
+    });
+
+});
+</script>
 
 </html>

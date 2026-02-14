@@ -1,9 +1,3 @@
-<?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,43 +70,27 @@ header {
     transform: translateY(-5px);
 }
 
+
 </style>
 </head>
 
 <body>
-
 <header>
 <nav class="navbar-custom">
 
     <a href="home.php" class="navbar-brand">
-        <img src="img/LOGO.jpeg" alt="Logo" class="logo-img"> Page Turner
+        <img src="img/LOGO.jpeg" alt="Logo" class="logo-img">Page Turner
     </a>
 
     <a href="home.php" class="but">Home</a>
-    <a href="search.php" class="but">Search</a>
+    <a href="search.php" class="but">Search <i class="fa-brands fa-searchengin"></i></a>
     <a href="About Us.php" class="but">About Us</a>
     <a href="Notes.php" class="but">Notes</a>
-
-    <?php if(isset($_SESSION['student_id'])) { ?>
-
-        <span class="but">
-            Welcome, <?php echo $_SESSION['student_name']; ?>
-        </span>
-
-        <a href="components/student_logout.php"
-           class="but"
-           onclick="return confirm('Logout from this website?');">
-           Logout
-        </a>
-
-    <?php } else { ?>
-
-        <a href="login.php" class="but">Login</a>
-
-    <?php } ?>
+    <a href="login.php" class="but">Login</a>
 
 </nav>
 </header>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
