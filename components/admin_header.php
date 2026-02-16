@@ -8,9 +8,10 @@
 
    <nav class="navbar">
       <a href="dashboard.php"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="listings.php"><i class="fas fa-building"></i><span>Listings</span></a>
-      <a href="users.php"><i class="fas fa-user"></i><span>Users</span></a>
-      <a href="messages.php"><i class="fas fa-message"></i><span>Messages</span></a>
+      <a href="book.php"><i class="fa-solid fa-book"></i></i><span>Book</span></a>
+      <a href="view_books.php"><i class="fa-solid fa-book-open"></i></i><span>View_Book</span></a>
+      <a href="student.php"><i class="fas fa-user"></i><span>Student</span></a>
+      <a href="view_student.php"><i class="fa-solid fa-users"></i><span>View_Student</span></a>
    </nav>
    <a href="../components/admin_logout.php" onclick="return confirm('logout from this website?');" class="delete-btn"><i class="fas fa-right-from-bracket"></i><span>Logout</span></a>
 

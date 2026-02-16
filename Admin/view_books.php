@@ -16,63 +16,42 @@ if(!isset($_COOKIE['admin_id'])){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
 <style>
-      body{
-      min-height: 100vh;
-      background: url("../img/back.jpg") no-repeat center center/cover;
-  }
-
-  /* COLUMN FIX */
   .col-md-8{
     width: 98%;
     padding: 20px;
   }
 
-  /* BOX */
-  .box{
-    background: #dbd4d4a0;
+  .box1{
+    background: #dbccccdc;
     border-radius:6px;
     box-shadow:0 2px 8px rgba(0,0,0,0.08);
   }
 
-  .box-body{
+  .box1-body{
     padding:15px;
   }
 
-  /* TABLE */
   table{
     width:100%;
     border-collapse:collapse;
   }
 
   .table thead th{
-    background: #b6a3a3af;
+    background: #bfb0b0e4;
     font-weight:600;
+    font-size: 14px;
     padding:12px;
     text-align:left;
     border-bottom:1px solid #ddd;
     position:relative;
   }
 
-  /* SORT ICON LOOK */
-  .table thead th::after{
-    font-size:13px;
-    color:#bbb;
-    position:absolute;
-    right:10px;
-  }
-
-  /* TABLE BODY */
   .table tbody td{
     padding:12px;
     border-bottom:1px solid #eee;
     font-size:14px;
   }
 
-  .table tbody tr:hover{
-    background:#f5f7fa;
-  }
-
-  /* BUTTONS */
   .btn{
     border:none;
     padding:7px 10px;
@@ -84,7 +63,6 @@ if(!isset($_COOKIE['admin_id'])){
     font-size:13px;
   }
 
-  /* EDIT */
   .btn-success{
     background:#00a65a;
     color:#fff;
@@ -94,7 +72,6 @@ if(!isset($_COOKIE['admin_id'])){
     background:#008d4c;
   }
 
-  /* DELETE */
   .btn-danger{
     background:#dd4b39;
     color:#fff;
@@ -104,17 +81,9 @@ if(!isset($_COOKIE['admin_id'])){
     background:#c23321;
   }
 
-  /* ICON */
   .btn i{
     font-size:14px;
   }
-
-  /* TOOLS COLUMN */
-  td:last-child{
-    text-align:center;
-    white-space:nowrap;
-  }
-
   </style>
 </head>
 
@@ -123,8 +92,8 @@ if(!isset($_COOKIE['admin_id'])){
 <?php include '../components/admin_header.php'; ?>
 
 <div class="col-md-8">
-  <div class="box">
-    <div class="box-body">
+  <div class="box1">
+    <div class="box1-body">
 
       <table class="table">
         <thead>
@@ -173,15 +142,6 @@ if(!isset($_COOKIE['admin_id'])){
 
 </body>
 <script>
-/* EDIT BOOK */
-document.querySelectorAll('.edit').forEach(btn => {
-  btn.addEventListener('click', function () {
-    const id = this.getAttribute('data-id');
-    window.location.href = "edit_book.php?id=" + id;
-  });
-});
-
-/* DELETE BOOK */
 document.querySelectorAll('.delete').forEach(btn => {
   btn.addEventListener('click', function () {
     const id = this.getAttribute('data-id');

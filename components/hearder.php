@@ -78,7 +78,7 @@ header {
 
 </style>
 </head>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 <body>
 
 <header>
@@ -88,8 +88,8 @@ header {
         <img src="img/LOGO.jpeg" alt="Logo" class="logo-img"> Page Turner
     </a>
 
-    <a href="home.php" class="but">Home</a>
-    <a href="search.php" class="but">Search</a>
+    <a href="home.php" class="but">Home</i></a>
+    <a href="search.php" class="but">Search<i class="fa-brands fa-searchengin"></i></a>
     <a href="About Us.php" class="but">About Us</a>
     <a href="Notes.php" class="but">Notes</a>
 

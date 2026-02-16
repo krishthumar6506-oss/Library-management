@@ -6,5 +6,5 @@ $id = $_GET['id'];
 $stmt = $conn->prepare("DELETE FROM books WHERE id = ?");
 $stmt->execute([$id]);
 
-header("Location: books.php");
+header("Location: view_books.php");
 exit;

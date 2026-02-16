@@ -1,3 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
+
+:root{
+   --main-color:rgba(156, 97, 48, 0.953);
+   --orange:#2980b9;
+   --red:rgba(156, 97, 48, 0.953);
+   --light-color:#000000;
+   --white:rgba(156, 97, 48, 0.062);
+   --black:#333;
+   --box-shadow:0 .5rem 1rem rgba(0,0,0,0.1);
+   --border:.2rem solid rgba(0,0,0,.3);
+}
+
+*{
+   font-family: 'Montserrat', sans-serif;
+   margin: 0; padding: 0;
+   box-sizing: border-box;
+   text-decoration: none;
+}
+
+
+html{
+   font-size: 62.5%;
+   overflow-x: hidden;
+   scroll-behavior: smooth;
+   scroll-padding-top: 5rem;
+}
+
+body{
+   padding-left: 30rem;
+   background: url("../img/back.jpg") no-repeat center center/cover;
+}
+
+    section{
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;  background-color: rgba(167, 166, 166, 0.422); 
+    }
+
+.heading{
+   margin-bottom: 2rem;
+   text-align: center;
+   text-transform: capitalize;
+   color: var(--black);
+   font-size: 3rem;
+}
+.btn,
+.delete-btn{
+   cursor: pointer;
+   padding: 1rem 2.5rem;
+   font-size: 1.8rem;
+   color: #fff;
+   text-align: center;
+   text-transform: capitalize;
+   margin-top: 1rem;
+   border-radius: .5rem;
+}
+
+.btn,
+.delete-btn,
+.option-btn{
+   display: block;
+   width: 100%;
+}
+
+.inline-btn,
+.inline-option-btn,
+.inline-delete-btn{
+   display: inline-block;
+}
+
+.btn{
+   background-color: var(--main-color);
+}
+
+.option-btn{
+   background-color: var(--orange);
+}
+
+.delete-btn{
+   background-color: var(--red);
+}
+
+.inline-btn:hover,
+.inline-option-btn:hover,
+.inline-delete-btn:hover,
+.btn:hover,
+.delete-btn:hover,
+.option-btn:hover{
+   background-color: var(--black);
+}
+/* ============= ENHANCED SIDEBAR HEADER ============= */
+.header {
+   position: fixed;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   width: 30rem;
+   padding: 2rem;
+   z-index: 1100;
+   background: linear-gradient(to bottom, 
+               rgba(255, 255, 255, 0.266) 0%, 
+               rgba(245, 245, 245, 0.292) 100%);
+   border-right: var(--border);
+   box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+   transition: all 0.3s ease;
+   backdrop-filter: blur(5px);
+ }
+ 
+ .header:hover {
+   box-shadow: 5px 0 25px rgba(0, 0, 0, 0.1);
+ }
+ 
+ .header .logo {
+   display: block;
+   text-align: center;
+   font-size: 2.5rem;
+   color: #000000;
+   padding: 1.5rem 0;
+   margin-bottom: 2rem;
+   position: relative;
+   font-weight: 600;
+   letter-spacing: 1px;
+ }
+ 
+ .header .navbar {
+   padding: 1rem 0;
+   background-color: transparent;
+ }
+ 
+ .header .navbar a {
+   display: flex;
+   align-items: center;
+   border-radius: 8px;
+   margin: 1.5rem 0;
+   font-size: 1.7rem;
+   color: var(--black);
+   padding: 1.5rem 2rem;
+   background-color: rgba(255, 255, 255, 0.29);
+   border: 1px solid rgba(0, 0, 0, 0.08);
+   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+ }
+ 
+ .header .navbar a:hover {
+   background-color: var(--main-color);
+   color: white;
+   transform: translateX(5px);
+   box-shadow: 0 5px 15px rgba(156, 97, 48, 0.3);
+   border-color: transparent;
+ }
+ 
+ .header .navbar a i {
+   margin-right: 1.5rem;
+   font-size: 1.8rem;
+   transition: all 0.3s ease;
+ }
+
+ .header .delete-btn i {
+   transition: transform 0.3s ease;
+ }
+ 
+ .header .delete-btn:hover i {
+   transform: rotate(90deg);
+ }
+ 
+#close-btn{
+   text-align: right;
+   padding-bottom: 1rem;
+   display: none;
+}
+
+
 .dashboard .box-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, 35rem);
@@ -12,12 +185,11 @@
     border: var(--border);
     padding: 2rem;
     box-shadow: var(--box-shadow);
-    background-color: rgba(255, 255, 255, 0.448);
-}
+    background: #d8cfcf93;
+   }
 
 .dashboard .box-container h3 {
     font-size: 2.5rem;
-    color: var(--black);
     padding-bottom: .5rem;
 }
 
@@ -29,4 +201,64 @@
     color: var (--light-color);
     background-color: var(--light-bg);
     margin: 1rem 0;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.box{
+    background: #ddd5d5af;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.box-header{
+    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.box-title{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.box-body{
+    padding: 20px;
+}
+
+.box-footer{
+    padding: 15px 20px 20px;
+}
+
+.form-group{
+    margin-bottom: 15px;
+}
+
+.form-group label{
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.form-control{
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
+.form-group input[type="radio"]{
+    margin-right: 6px;
+}
+
+label{
+    font-size: 14px;
 }

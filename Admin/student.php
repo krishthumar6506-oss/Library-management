@@ -105,81 +105,14 @@ Online Library
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 <style>
-
-body{
-    background: url("../img/back.jpg") no-repeat center center/cover;
-    font-family: Arial, sans-serif;
-}
-
-.container{
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .box{
-   background: #ddd5d5bc;
-    width: 100%;
     padding: 25px 25px;
-    max-width: 600px;
-    border-radius: 5px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
-
-.box-header{
-    text-align: center;
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.box-title{
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.box-body{
-    padding: 20px;
-}
-.form-group{
-    margin-bottom: 15px;
-}
-
-.form-group label{
-    display: block;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.form-control{
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-
-.form-group input[type="radio"]{
-    margin-right: 6px;
-}
-.box-footer{
-    padding: 15px 20px 20px;
-}
-
-.btn{
- width: 100%;
-    padding: 14px;
-    border: none;
-    background: #805100;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
 }
 
 .box-footer{
     margin-top: 10px;
 }
+
 ::placeholder{
    color: #999;
    font-size: 14px;
