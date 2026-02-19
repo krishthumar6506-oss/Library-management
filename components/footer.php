@@ -68,9 +68,9 @@
 
       <div class="box">
          <a href="home.php"><span>Home</span></a>
-         <a href="about.php"><span>About</span></a>
-         <a href="contact.php"><span>Contact</span></a>
-         <a href="listings.php"><span>All Listings</span></a>
+         <a href="About Us.php"><span>About us</span></a>
+         <a href="search.php"><span>Search</span></a>
+         <a href="notes.php"><span>Notes</span></a>
       </div>
 
       <div class="box">

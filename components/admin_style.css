@@ -31,11 +31,12 @@ body{
    background: url("../img/back.jpg") no-repeat center center/cover;
 }
 
-    section{
-    padding: 3rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;  background-color: rgba(167, 166, 166, 0.422); 
-    }
+section{
+padding: 3rem 2rem;
+max-width: 1200px;
+margin: 0 auto;  
+background-color: rgba(167, 166, 166, 0.422); 
+}
 
 .heading{
    margin-bottom: 2rem;
@@ -89,7 +90,7 @@ body{
 .option-btn:hover{
    background-color: var(--black);
 }
-/* ============= ENHANCED SIDEBAR HEADER ============= */
+
 .header {
    position: fixed;
    top: 0;
@@ -185,7 +186,7 @@ body{
     border: var(--border);
     padding: 2rem;
     box-shadow: var(--box-shadow);
-    background: #d8cfcf93;
+    background: #d8cfcfb5;
    }
 
 .dashboard .box-container h3 {
@@ -211,7 +212,7 @@ body{
 }
 
 .box{
-    background: #ddd5d5af;
+    background: #ddd5d5c8;
     width: 100%;
     max-width: 500px;
     border-radius: 8px;

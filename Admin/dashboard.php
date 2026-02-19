@@ -34,7 +34,7 @@ if(isset($_COOKIE['admin_id'])){
    <div class="box-container">
 
    <div class="box">
-   <h3>Welcome!</h3>
+   <h3>Welcome.</h3>
    <p>Admin</p>
 </div>
 

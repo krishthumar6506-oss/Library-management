@@ -40,8 +40,6 @@ if(isset($_POST['submit'])){
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
-   <link rel="stylesheet" href="../css/admin_style.css">
-
 </head>
 <style>
 
@@ -65,25 +63,22 @@ body{
     padding: 20px;
 }
 
-/* FORM CARD */
 .form-container form{
     width: 100%;
     max-width: 380px;
     padding: 35px 30px;
-    background: #f2efef63;
+    background: #f2efef7d;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     text-align: center;
 }
 
-/* HEADING */
 .form-container form h3{
     font-size: 26px;
     margin-bottom: 25px;
     font-weight: 600;
 }
 
-/* INPUT BOXES */
 .form-container .box{
     width: 100%;
     padding: 14px 18px;
@@ -95,13 +90,11 @@ body{
     transition: 0.3s ease;
 }
 
-/* INPUT FOCUS */
 .form-container .box:focus{
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
 }
 
-/* BUTTON */
 .form-container .btn{
     width: 100%;
     padding: 14px;
