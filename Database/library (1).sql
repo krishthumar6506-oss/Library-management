@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2026 at 12:27 PM
+-- Generation Time: Feb 26, 2026 at 04:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,7 +65,35 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`id`, `isbn`, `title`, `author`, `publisher`, `publish_date`, `status`) VALUES
 (6, '123756', 'ffvx', 'vdzd', 'dvz', '2026-01-12', 1),
-(7, '55', '5', '5', '5', '5555-05-05', 1);
+(7, '55', '5', '5', '5', '5555-05-05', 1),
+(8, '586', '555', '55', '55', '2026-02-10', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `borrow`
+--
+
+CREATE TABLE `borrow` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `date_borrow` date NOT NULL,
+  `status` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `returns`
+--
+
+CREATE TABLE `returns` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `date_return` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -92,7 +120,7 @@ INSERT INTO `students` (`id`, `firstname`, `lastname`, `created_on`, `email`, `p
 (10, 'kris', 'thmmar', '2026-01-22', 'vyasnevil4@gmail.com', '$2y$10$JiwHmt1xsqH.RpTbvxbGBe6eAZaH0Gsma84MFfAAJxTtIdxuvFiJ.', 'Female', '0989865440'),
 (12, 'ddd', 'dddd', '2026-02-13', 'ssd@ss.ssd', '$2y$10$xOIjqzny0l49HNgKpm3VgeKfwF3E6bca.Yio1h5piNDEe2BeNphDe', 'Female', '1234567894'),
 (13, 'ddd', 'ddd', '2026-02-13', 'dd@dd.dd', '$2y$10$XIdOggiB5.ISapSuxBJRSeL5n7WgJ/JGrEzV4RjW5zCoTd1CZovOS', 'Female', '5555555555'),
-(14, 'Krish', 'Thummar', '2026-02-14', 'krishthumar6506@gmail.com', '$2y$10$Wkfc1vn36DHdGUWGcJpHrOFFmLfcVgHSqyFFdnNLs0eHYforlowXS', 'Female', '9898658555');
+(16, 'Krish', 'Thummar', '2026-02-26', 'kthummar467@gmail.com', '$2y$10$rZ7pdejjXfDf2lklmZSG.uS5bpyD6q16TSdVKKOS207WXUipeQZyS', 'Female', '9898654408');
 
 --
 -- Indexes for dumped tables
@@ -119,13 +147,13 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
