@@ -1,11 +1,3 @@
-<?php
-session_start();
-if(!isset($_SESSION['student_id'])){
-   header("Location: login.php");
-   exit();
-}
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +16,7 @@ body {
 .container{
     width: 90%;
     max-width: 800px;
-    background: #b7af95bb;
+    background: #b7af95ef;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
@@ -36,7 +28,7 @@ h2{
 }
 
 .note{
-    background: #f0f3fa93;
+    background: #f0f3faed;
     padding: 15px;
     margin: 15px 0;
     border-left: 6px solid #4e73df;
@@ -53,7 +45,7 @@ h3{
     text-align: center;
     font-size: 28px;
     margin-bottom: 25px;
-    background : #a48f8f9f ;
+    background : #a48f8ff0 ;
     color: #333;
 }
 
@@ -62,14 +54,14 @@ h3{
     max-width: 900px;
     margin: auto;
     border-collapse: collapse;
-    background: #c0aeaecd;
+    background: #c0aeaef9;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 .holiday-table th{
-    background: linear-gradient(to right, #fc694c97, #c1477e94);
+    background: linear-gradient(to right, #fc694cc9, #c1477ed6);
     color: white;
     padding: 14px;
     font-size: 16px;
@@ -82,6 +74,92 @@ h3{
     text-align: center;
     font-size: 15px;
     color: #000000f1;
+}
+@media (min-width: 992px) {
+
+    .container{
+        max-width: 900px;
+        padding: 40px;
+    }
+
+    h2{
+        font-size: 32px;
+    }
+
+    h3{
+        font-size: 30px;
+    }
+
+    .note{
+        font-size: 18px;
+    }
+
+    .holiday-table th,
+    .holiday-table td{
+        font-size: 16px;
+        padding: 14px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+    .container{
+        width: 95%;
+        padding: 25px;
+    }
+
+    h2{
+        font-size: 26px;
+    }
+
+    h3{
+        font-size: 24px;
+    }
+
+    .note{
+        font-size: 16px;
+    }
+
+    .holiday-table th,
+    .holiday-table td{
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    body{
+        background-position: top;
+    }
+
+    .container{
+        width: 100%;
+        padding: 15px;
+        border-radius: 0;
+    }
+
+    h2{
+        font-size: 20px;
+    }
+
+    h3{
+        font-size: 18px;
+    }
+
+    .note{
+        font-size: 14px;
+        margin: 10px 0;
+    }
+
+    .holiday-table{
+        font-size: 13px;
+    }
+
+    .holiday-table th,
+    .holiday-table td{
+        padding: 8px;
+    }
 }
 
 </style>

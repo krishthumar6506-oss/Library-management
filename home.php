@@ -34,12 +34,12 @@ body {
 }
 
  h2 {
-    background: #b6a3a3d3;
+    background: #b6a3a3f9;
 
  }
  
 .services .box{
-    background: #b6a3a3d3;
+    background: #b6a3a3fc;
     padding: 30px 25px;
     border-radius: 16px;
     text-align: center;
@@ -70,10 +70,46 @@ body {
 }
 
 .carousel-item img {
-    height: 850px;        /* change this height as you want */
-    object-fit: cover;    /* crop image nicely */
+    height: 850px;       
+    object-fit: cover;  
+}
+@media (min-width: 992px) {
+    .services .box-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .carousel-item img {
+        height: 850px;
+    }
 }
 
+@media (max-width: 991px) {
+    .services .box-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .carousel-item img {
+        height: 500px;
+    }
+}
+
+@media (max-width: 767px) {
+    .services .box-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .services .heading {
+        font-size: 24px;
+    }
+
+    .carousel-item img {
+        height: 300px;
+    }
+
+    .services .box {
+        padding: 20px;
+    }
+}
 
 </style>
 <body>

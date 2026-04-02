@@ -49,7 +49,67 @@
 .footer .credit span {
    color: #4caf50;
 }
+@media (min-width: 992px) {
 
+   .footer{
+      font-size: 17px;
+   }
+
+   .footer .box{
+      flex: 1 1 250px;
+   }
+
+   .footer .credit{
+      font-size: 18px;
+   }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+   .footer .flex{
+      justify-content: center;
+      text-align: center;
+   }
+
+   .footer .box{
+      flex: 1 1 300px;
+   }
+
+   .footer .box a{
+      justify-content: center;
+   }
+
+   .footer .credit{
+      font-size: 16px;
+   }
+}
+
+@media (max-width: 767px) {
+
+   .footer{
+      padding: 1.5rem 1rem;
+      font-size: 14px;
+   }
+
+   .footer .flex{
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+   }
+
+   .footer .box{
+      width: 100%;
+   }
+
+   .footer .box a{
+      justify-content: center;
+      font-size: 14px;
+   }
+
+   .footer .credit{
+      font-size: 14px;
+   }
+}
 </style>
 
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">

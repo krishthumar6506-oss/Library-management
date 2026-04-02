@@ -16,13 +16,13 @@ if (!isset($_COOKIE['admin_id'])) {
 
 if (isset($_POST['add'])) {
 
-    $firstname = filter_var($_POST['firstname']);
-    $lastname  = filter_var($_POST['lastname']);
+    $firstname = filter_var($_POST['firstname'], FILTER_SANITIZE_STRING);
+    $lastname  = filter_var($_POST['lastname'], FILTER_SANITIZE_STRING);
     $email     = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $mobile    = filter_var($_POST['mobile']);
+    $mobile    = filter_var($_POST['mobile'], FILTER_SANITIZE_STRING);
     $gender    = $_POST['gender'];
 
-    $plainPassword = $_POST['password']; // for email
+    $plainPassword = $_POST['password'];
     $password = password_hash($plainPassword, PASSWORD_DEFAULT);
 
     $check = $conn->prepare("SELECT id FROM students WHERE email = ?");
@@ -34,7 +34,6 @@ if (isset($_POST['add'])) {
         exit;
     }
 
-    /* INSERT STUDENT */
     $insert = $conn->prepare(
         "INSERT INTO students 
         (firstname, lastname, email, password, mobile, gender, created_on)
@@ -43,38 +42,113 @@ if (isset($_POST['add'])) {
 
     if ($insert->execute([$firstname, $lastname, $email, $password, $mobile, $gender])) {
 
-        /* SEND EMAIL  */
         $mail = new PHPMailer(true);
 
         try {
+
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'krishthumar6506@gmail.com';   // YOUR EMAIL
-            $mail->Password   = 'gdwjmxsytojtcpwx';            // APP PASSWORD
+            $mail->Username   = 'krishthumar6506@gmail.com';
+            $mail->Password   = 'gdwjmxsytojtcpwx';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
             $mail->setFrom('krishthumar6506@gmail.com', 'Student Management');
             $mail->addAddress($email, "$firstname $lastname");
 
-            $mail->isHTML(false);
+            $mail->isHTML(true);
             $mail->Subject = 'Registration Successful';
 
-
 $mail->Body = "
-Hello $firstname $lastname,
+<html>
+<head>
+<style>
+body{
+font-family: Arial, sans-serif;
+background:#f4f6f9;
+padding:20px;
+}
 
-Your Online Library account has been created successfully.
+.email-container{
+max-width:600px;
+margin:auto;
+background:#ffffff;
+border-radius:8px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
 
-Login Details:
-Email    : $email
-Password : $plainPassword
+.header{
+background:#007bff;
+color:white;
+text-align:center;
+padding:20px;
+font-size:22px;
+font-weight:bold;
+}
 
-Please keep your login details confidential.
+.content{
+padding:25px;
+color:#333;
+line-height:1.6;
+}
 
-Thank you,
-Online Library
+.details{
+background:#f8f9fa;
+padding:15px;
+border-radius:5px;
+margin:15px 0;
+}
+
+.details p{
+margin:5px 0;
+font-weight:bold;
+}
+
+.footer{
+text-align:center;
+padding:15px;
+font-size:14px;
+color:#777;
+background:#f1f1f1;
+}
+</style>
+</head>
+
+<body>
+
+<div class='email-container'>
+
+<div class='header'>
+Page Turner 
+</div>
+
+<div class='content'>
+
+<h3>Hello $firstname $lastname,</h3>
+
+<p>Your <b>Online Library account</b> has been created successfully.</p>
+
+<div class='details'>
+<p>Email : $email</p>
+<p>Password : $plainPassword</p>
+</div>
+
+<p>Please keep your login details confidential.</p>
+
+<p>Thank you,<br><b>Online Library Team</b></p>
+
+</div>
+
+<div class='footer'>
+© ".date('Y')." Online Library | All Rights Reserved
+</div>
+
+</div>
+
+</body>
+</html>
 ";
 
             $mail->send();
@@ -82,11 +156,15 @@ Online Library
             $_SESSION['success'] = 'Student added and email sent successfully';
 
         } catch (Exception $e) {
+
             $_SESSION['success'] = 'Student added (email not sent)';
+
         }
 
     } else {
+
         $_SESSION['error'] = 'Failed to add student';
+
     }
 
     header('Location: student.php');
@@ -99,243 +177,240 @@ Online Library
 <head>
 <meta charset="UTF-8">
 <title>Add Student</title>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
 <link rel="stylesheet" href="../components/admin_style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-</head>
+
 <style>
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:500px;
+}
+
 .box{
-    padding: 25px 25px;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
 
 .box-footer{
-    margin-top: 10px;
+    margin-top:10px;
 }
 
 ::placeholder{
-   color: #999;
-   font-size: 14px;
+   color:#999;
+   font-size:14px;
 }
 
 .text-danger{
-    color: red;
-    font-size: 12px;
-    font-weight: 700;
+    color:red;
+    font-size:12px;
+    font-weight:700;
 }
+
 </style>
+</head>
 
 <body>
+
 <?php include '../components/admin_header.php'; ?>
+
 <?php
 if(isset($_SESSION['success'])){
-    $success_msg = $_SESSION['success'];
-    echo "<script>
-        swal('Success!', '$success_msg', 'success');
-    </script>";
+    echo "<script>swal('Success!', '".$_SESSION['success']."', 'success');</script>";
     unset($_SESSION['success']);
 }
 
 if(isset($_SESSION['error'])){
-    $warning_msg = $_SESSION['error'];
-    echo "<script>
-        swal('Error!', '$warning_msg', 'error');
-    </script>";
+    echo "<script>swal('Error!', '".$_SESSION['error']."', 'error');</script>";
     unset($_SESSION['error']);
 }
 ?>
-<br>
-
-
 
 <div class="container">
+
 <div class="box box-primary">
+
 <div class="box-header with-border">
 <h3 class="box-title">Add New Student</h3>
 </div>
+
 <form method="POST" id="studentForm">
+
 <div class="form-group">
 <label>Firstname</label>
-<input type="text" id="firstName" name="firstname" 
-       class="form-control" placeholder="Enter your first name">
+<input type="text" id="firstName" name="firstname" class="form-control" placeholder="Enter your first name">
 <small id="fname_error"></small>
 </div>
 
 <div class="form-group">
 <label>Lastname</label>
-<input type="text" id="lastName" name="lastname" 
-       class="form-control" placeholder="Enter your last name">
+<input type="text" id="lastName" name="lastname" class="form-control" placeholder="Enter your last name">
 <small id="lname_error"></small>
 </div>
 
 <div class="form-group">
 <label>Email</label>
-<input type="email" id="email" name="email" 
-       class="form-control" placeholder="Enter your email address">
+<input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address">
 <small id="email_error"></small>
 </div>
 
 <div class="form-group">
 <label>Mobile</label>
-<input type="text" id="mobile" name="mobile" 
-       class="form-control" placeholder="Enter 10 digit mobile number">
+<input type="text" id="mobile" name="mobile" class="form-control" placeholder="Enter 10 digit mobile number">
 <small id="mobile_error"></small>
 </div>
 
 <div class="form-group">
 <label>Gender</label><br>
+
 <label><input type="radio" name="gender" value="Male"> Male</label>
 <label><input type="radio" name="gender" value="Female"> Female</label>
 <label><input type="radio" name="gender" value="Other"> Other</label>
+
 <br>
 <small id="gender_error"></small>
+
 </div>
 
 <div class="form-group">
+
 <label>Password</label>
-<input type="password" id="password" name="password" 
-       class="form-control" placeholder="Enter strong password">
+<input type="password" id="password" name="password" class="form-control" placeholder="Enter strong password">
 <small id="password_error"></small>
+
 </div>
 
 <div class="box-footer">
+
 <button type="submit" name="add" class="btn btn-primary btn-block">
 <i class="fa fa-save"></i> Save
-<br>
+</button>
+
 </div>
+
 </form>
+
 </div>
+
 </div>
-</body>
+
 <script>
 $(document).ready(function () {
 
-    $('#studentForm').submit(function (e) {
+$('#studentForm').submit(function (e) {
 
-        // FIRST NAME
-        var fname = $('#firstName').val().trim();
-        var fname_regex = /^[a-zA-Z]+$/;
+var validate = true;
 
-        if (fname == "") {
-            $('#fname_error').text("Firstname is required").addClass('text-danger');
-            $('#firstName').addClass("is-invalid");
-            var validate_fname = false;
-        }
-        else if (fname.length < 3) {
-            $('#fname_error').text("Minimum length is 3 characters").addClass('text-danger');
-            $('#firstName').addClass("is-invalid");
-            validate_fname = false;
-        }
-        else {
-            $('#fname_error').text("");
-            $('#firstName').removeClass("is-invalid").addClass("is-valid");
-            validate_fname = true;
-        }
+// FIRST NAME
+var fname = $('#firstName').val().trim();
+var fname_regex = /^[a-zA-Z]{3,}$/;
 
-        // LAST NAME
-        var lname = $('#lastName').val().trim();
-        var lname_regex = /^[a-zA-Z]+$/;
+if(fname == ""){
+$('#fname_error').text("Firstname is required").addClass("text-danger");
+validate = false;
+}
+else if(!fname_regex.test(fname)){
+$('#fname_error').text("Only letters allowed (min 3 characters)").addClass("text-danger");
+validate = false;
+}
+else{
+$('#fname_error').text("");
+}
 
-        if (lname == "") {
-            $('#lname_error').text("Lastname is required").addClass('text-danger');
-            $('#lastName').addClass("is-invalid");
-            var validate_lname = false;
-        }
-        else if (lname.length < 3) {
-            $('#lname_error').text("Minimum length is 3 characters").addClass('text-danger');
-            $('#lastName').addClass("is-invalid");
-            validate_lname = false;
-        }
-        else {
-            $('#lname_error').text("");
-            $('#lastName').removeClass("is-invalid").addClass("is-valid");
-            validate_lname = true;
-        }
+// LAST NAME
+var lname = $('#lastName').val().trim();
+var lname_regex = /^[a-zA-Z]{3,}$/;
 
-        //EMAIL
-        var email = $('#email').val().trim();
-        var email_regex = /^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$/;
+if(lname == ""){
+$('#lname_error').text("Lastname is required").addClass("text-danger");
+validate = false;
+}
+else if(!lname_regex.test(lname)){
+$('#lname_error').text("Only letters allowed (min 3 characters)").addClass("text-danger");
+validate = false;
+}
+else{
+$('#lname_error').text("");
+}
 
-        if (email == "") {
-            $('#email_error').text("Email is required").addClass('text-danger');
-            $('#email').addClass("is-invalid");
-            var validate_email = false;
-        }
-        else if (!email_regex.test(email)) {
-            $('#email_error').text("Enter valid email address").addClass('text-danger');
-            $('#email').addClass("is-invalid");
-            validate_email = false;
-        }
-        else {
-            $('#email_error').text("");
-            $('#email').removeClass("is-invalid").addClass("is-valid");
-            validate_email = true;
-        }
+// EMAIL
+var email = $('#email').val().trim();
+var email_regex = /^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$/;
 
-        // MOBILE
-        var mobile = $('#mobile').val().trim();
-        var mobile_regex = /^[0-9]{10}$/;
+if(email == ""){
+$('#email_error').text("Email is required").addClass("text-danger");
+validate = false;
+}
+else if(!email_regex.test(email)){
+$('#email_error').text("Enter valid email").addClass("text-danger");
+validate = false;
+}
+else{
+$('#email_error').text("");
+}
 
-        if (mobile == "") {
-            $('#mobile_error').text("Mobile number is required").addClass('text-danger');
-            $('#mobile').addClass("is-invalid");
-            var validate_mobile = false;
-        }
-        else if (!mobile_regex.test(mobile)) {
-            $('#mobile_error').text("Enter valid 10 digit number").addClass('text-danger');
-            $('#mobile').addClass("is-invalid");
-            validate_mobile = false;
-        }
-        else {
-            $('#mobile_error').text("");
-            $('#mobile').removeClass("is-invalid").addClass("is-valid");
-            validate_mobile = true;
-        }
+// MOBILE
+var mobile = $('#mobile').val().trim();
+var mobile_regex = /^[0-9]{10}$/;
 
-        //GENDER
-        if ($('input[name="gender"]:checked').length == 0) {
-            $('#gender_error').text("Please select gender").addClass('text-danger');
-            var validate_gender = false;
-        } else {
-            $('#gender_error').text("");
-            validate_gender = true;
-        }
+if(mobile == ""){
+$('#mobile_error').text("Mobile number required").addClass("text-danger");
+validate = false;
+}
+else if(!mobile_regex.test(mobile)){
+$('#mobile_error').text("Enter valid 10 digit number").addClass("text-danger");
+validate = false;
+}
+else{
+$('#mobile_error').text("");
+}
 
-        //PASSWORD 
-        var password = $('#password').val();
-        var password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$/;
+// GENDER
+if($('input[name="gender"]:checked').length == 0){
+$('#gender_error').text("Please select gender").addClass("text-danger");
+validate = false;
+}
+else{
+$('#gender_error').text("");
+}
 
-        if (password == "") {
-            $('#password_error').text("Password is required").addClass('text-danger');
-            $('#password').addClass("is-invalid");
-            var validate_password = false;
-        }
-        else if (!password_regex.test(password)) {
-            $('#password_error').text("Password must contain 8 characters, uppercase, lowercase, number & special character").addClass('text-danger');
-            $('#password').addClass("is-invalid");
-            validate_password = false;
-        }
-        else {
-            $('#password_error').text("");
-            $('#password').removeClass("is-invalid").addClass("is-valid");
-            validate_password = true;
-        }
+// PASSWORD
+var password = $('#password').val();
+var password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$/;
 
-        //FINAL CHECK
-        if (
-            validate_fname == false ||
-            validate_lname == false ||
-            validate_email == false ||
-            validate_mobile == false ||
-            validate_gender == false ||
-            validate_password == false
-        ) {
-            e.preventDefault();
-        }
+if(password == ""){
+$('#password_error').text("Password is required").addClass("text-danger");
+validate = false;
+}
+else if(!password_regex.test(password)){
+$('#password_error').text("Password must contain uppercase, lowercase, number & symbol").addClass("text-danger");
+validate = false;
+}
+else{
+$('#password_error').text("");
+}
 
-    });
+// STOP FORM IF INVALID
+if(!validate){
+e.preventDefault();
+}
+
+});
 
 });
 </script>
 
+</body>
 </html>

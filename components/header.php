@@ -2,36 +2,48 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Header Design</title>
+<title>Responsive Header</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-header {
-     padding-top: 130px;
+<style>
+/* ================= BODY ================= */
+
+body {
+    margin: 0;
+    padding: 0;
+    padding-top: 110px;   /* Space for fixed navbar */
+    font-family: Arial, sans-serif;
 }
+
+
+/* ================= NAVBAR ================= */
 
 .navbar-custom {
     position: fixed;
-    top: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95%;
+    top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
 
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-
-    border-radius: 25px;
-    padding: 20px 40px;
-
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 40px;
+
+    background: rgba(223, 216, 216, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+
+    padding: 15px 40px;
 }
+
+
+/* ================= LOGO ================= */
 
 .logo-img {
     width: 70px;
@@ -55,9 +67,18 @@ header {
     text-decoration: none;
 }
 
+
+/* ================= MENU ITEMS ================= */
+
+.menu-items {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
 .but {
     text-decoration: none;
-    padding: 10px 25px;
+    padding: 8px 20px;
     border-radius: 30px;
     font-weight: 500;
     color: #333;
@@ -67,31 +88,112 @@ header {
 }
 
 .but:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
+    background: #333;
+    color: hsl(0, 26%, 90%);
 }
 
 
+/* ================= MEDIUM DEVICES ================= */
+
+@media (max-width: 991px) {
+
+    body {
+        padding-top: 95px;
+    }
+
+    .navbar-custom {
+        padding: 12px 25px;
+    }
+
+    .logo-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .navbar-brand {
+        font-size: 20px;
+    }
+
+    .but {
+        padding: 6px 16px;
+        font-size: 14px;
+    }
+}
+
+
+/* ================= SMALL DEVICES ================= */
+
+@media (max-width: 767px) {
+
+    body {
+        padding-top: 80px;
+    }
+
+    .navbar-custom {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+    }
+
+    .logo-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+
+    .menu-items {
+        gap: 10px;
+    }
+
+    .but {
+        padding: 5px 12px;
+        font-size: 13px;
+    }
+}
 </style>
 </head>
 
 <body>
+
 <header>
 <nav class="navbar-custom">
 
+    <!-- Logo -->
     <a href="home.php" class="navbar-brand">
-        <img src="img/LOGO.jpeg" alt="Logo" class="logo-img">Page Turner
+        <img src="img/LOGO.jpeg" alt="Logo" class="logo-img">
+        Page Turner
     </a>
 
-    <a href="home.php" class="but">Home</a>
-    <a href="search.php" class="but">Search <i class="fa-brands fa-searchengin"></i></a>
-    <a href="About Us.php" class="but">About Us</a>
-    <a href="Notes.php" class="but">Notes</a>
-    <a href="login.php" class="but">Login</a>
+    <!-- Menu Items -->
+    <div class="menu-items">
+        <a href="home.php" class="but">
+            <i class="fa-solid fa-house"></i> <span class="d-none d-md-inline">Home</span>
+        </a>
+
+        <a href="search.php" class="but">
+            <i class="fa-solid fa-magnifying-glass"></i> <span class="d-none d-md-inline">Search</span>
+        </a>
+
+        <a href="About Us.php" class="but">
+            <i class="fa-solid fa-circle-info"></i> <span class="d-none d-md-inline">About</span>
+        </a>
+
+        <a href="Notes.php" class="but">
+            <i class="fa-solid fa-book"></i> <span class="d-none d-md-inline">Notes</span>
+        </a>
+
+        <a href="login.php" class="but">
+            <i class="fa-solid fa-user"></i> <span class="d-none d-md-inline">Login</span>
+        </a>
+    </div>
 
 </nav>
 </header>
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

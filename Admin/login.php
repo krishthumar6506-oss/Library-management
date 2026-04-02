@@ -29,18 +29,17 @@ if(isset($_POST['submit'])){
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
    <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Login</title>
+   <title>Admin Login</title>
 
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
-</head>
 <style>
 
 *{
@@ -67,7 +66,7 @@ body{
     width: 100%;
     max-width: 380px;
     padding: 35px 30px;
-    background: #f2efef7d;
+    background: #f2efeff5;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     text-align: center;
@@ -90,11 +89,6 @@ body{
     transition: 0.3s ease;
 }
 
-.form-container .box:focus{
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
-}
-
 .form-container .btn{
     width: 100%;
     padding: 14px;
@@ -102,38 +96,102 @@ body{
     border: none;
     border-radius: 30px;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    color: #38f047;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: 0.3s ease;
+    color: white;
 }
 
-/* BUTTON HOVER */
 .form-container .btn:hover{
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.25);
 }
 
+.text-danger{
+    color: red;
+    font-size: 13px;
+    display: block;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.is-invalid{
+    border: 2px solid red !important;
+}
+
+.is-valid{
+    border: 2px solid green !important;
+}
 
 </style>
-<body style="padding-left: 0;">
+</head>
 
-<section class="form-container" style="min-height: 100vh;">
+<body>
 
-<form action="" method="POST">
+<section class="form-container">
+
+<form action="" method="POST" id="adminLogin" novalidate>
+
    <h3>Welcome Admin</h3>
-   <input type="text" name="username" placeholder="Enter Username" class="box" required>
-   <input type="password" name="password" placeholder="Enter Password" class="box" required>
-   <input type="submit" value="Login Now" name="submit" class="btn">
+
+   <input type="text" id="username" name="username" placeholder="Enter Username" class="box">
+   <small id="user_error"></small>
+
+   <input type="password" id="password" name="password" placeholder="Enter Password" class="box">
+   <small id="pass_error"></small>
+
+   <input type="submit" name="submit" value="Login Now" class="btn">
 </form>
 
-
 </section>
+<script>
+$(document).ready(function () {
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    $('#adminLogin').submit(function (e) {
 
+        var username = $('#username').val().trim();
+        var password = $('#password').val().trim();
 
+        var validate_user = true;
+        var validate_pass = true;
+
+        // USERNAME
+        if (username == "") {
+            $('#user_error').text("Username is required").addClass("text-danger");
+            $('#username').removeClass("is-valid").addClass("is-invalid");
+            validate_user = false;
+        }
+        else if (username.length < 3) {
+            $('#user_error').text("Username must be at least 3 characters").addClass("text-danger");
+            $('#username').removeClass("is-valid").addClass("is-invalid");
+            validate_user = false;
+        }
+        else {
+            $('#user_error').text("");
+            $('#username').removeClass("is-invalid").addClass("is-valid");
+        }
+
+        // PASSWORD
+        if (password == "") {
+            $('#pass_error').text("Password is required").addClass("text-danger");
+            $('#password').removeClass("is-valid").addClass("is-invalid");
+            validate_pass = false;
+        }
+        else {
+            $('#pass_error').text("");
+            $('#password').removeClass("is-invalid").addClass("is-valid");
+        }
+
+        // STOP SUBMIT ONLY IF INVALID
+        if(validate_user == false || validate_pass == false){
+            e.preventDefault();
+        }
+
+    });
+
+});
+</script>
 </body>
 
 <?php
@@ -149,6 +207,5 @@ if(isset($warning_msg)){
    }
 }
 ?>
-
 
 </html>
