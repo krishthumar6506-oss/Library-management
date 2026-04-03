@@ -202,24 +202,42 @@ h3{
     <th>Date</th>
     <th>Festival Name</th>
 </tr>
-
+<!-- January -->
+<tr><td>January 13</td><td>Lohri</td></tr>
 <tr><td>January 14</td><td>Makar Sankranti</td></tr>
-<tr><td>January 26</td><td>Vasant Panchami</td></tr>
-<tr><td>February 15</td><td>Maha Shivaratri</td></tr>
-<tr><td>March 3</td><td>Holika Dahan</td></tr>
+
+<!-- March -->
 <tr><td>March 4</td><td>Holi</td></tr>
 <tr><td>March 26</td><td>Ram Navami</td></tr>
-<tr><td>April 14</td><td>Baisakhi</td></tr>
-<tr><td>April 29</td><td>Akshaya Tritiya</td></tr>
-<tr><td>August 4</td><td>Raksha Bandhan</td></tr>
-<tr><td>August 26</td><td>Krishna Janmashtami</td></tr>
-<tr><td>September 17</td><td>Ganesh Chaturthi</td></tr>
-<tr><td>October 20</td><td>Dussehra (Vijayadashami)</td></tr>
-<tr><td>November 8</td><td>Diwali (Deepavali)</td></tr>
-<tr><td>November 9</td><td>Govardhan Puja</td></tr>
-<tr><td>November 10</td><td>Bhai Dooj</td></tr>
-<tr><td>November 24</td><td>Kartik Purnima</td></tr>
+<tr><td>March 29</td><td>Good Friday</td></tr>
+<tr><td>March 31</td><td>Eid al-Fitr</td></tr>
+<tr><td>March 31</td><td>Easter</td></tr>
 
+<!-- April -->
+<tr><td>April 14</td><td>Vaisakhi</td></tr>
+
+<!-- June -->
+<tr><td>June 7</td><td>Eid al-Adha</td></tr>
+
+<!-- July -->
+<tr><td>July 6</td><td>Muharram</td></tr>
+
+<!-- August -->
+<tr><td>August 26</td><td>Krishna Janmashtami</td></tr>
+
+<!-- September -->
+<tr><td>September 16</td><td>Milad-un-Nabi</td></tr>
+<tr><td>September 17</td><td>Ganesh Chaturthi</td></tr>
+
+<!-- October -->
+<tr><td>October 20</td><td>Dussehra</td></tr>
+
+<!-- November -->
+<tr><td>November 8</td><td>Diwali</td></tr>
+<tr><td>November 15</td><td>Guru Nanak Jayanti</td></tr>
+
+<!-- December -->
+<tr><td>December 25</td><td>Christmas</td></tr>
 </table>
 <br>
 
