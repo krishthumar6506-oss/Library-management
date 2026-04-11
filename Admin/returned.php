@@ -9,89 +9,79 @@ if (!isset($_COOKIE['admin_id'])) {
     exit;
 }
 
-/* RETURN BOOK LOGIC */
+/* ================= RETURN BOOK ================= */
 
 if(isset($_POST['ret'])){
 
-$student_id = trim($_POST['student_id']);
-$isbn = trim($_POST['isbn']);
+$email = trim($_POST['email']);
+$isbn  = trim($_POST['isbn']);
 
-if($student_id != '' && $isbn != ''){
+if($email != '' && $isbn != ''){
 
 try{
 
-/* CHECK STUDENT */
+// ✅ CHECK STUDENT
+$student = $conn->prepare("SELECT id FROM students WHERE email=?");
+$student->execute([$email]);
+$stu = $student->fetch(PDO::FETCH_ASSOC);
 
-$student_check = $conn->prepare("SELECT id FROM students WHERE id=?");
-$student_check->execute([$student_id]);
-
-if($student_check->rowCount() == 0){
-
+if(!$stu){
 $msg = "student";
-
 }else{
 
-/* CHECK BOOK */
+$student_id = $stu['id'];
 
-$stmt = $conn->prepare("SELECT id FROM books WHERE isbn=?");
-$stmt->execute([$isbn]);
-$book = $stmt->fetch(PDO::FETCH_ASSOC);
+// ✅ CHECK BOOK
+$book = $conn->prepare("SELECT id FROM books WHERE isbn=?");
+$book->execute([$isbn]);
+$b = $book->fetch(PDO::FETCH_ASSOC);
 
-if(!$book){
-
+if(!$b){
 $msg = "book";
-
 }else{
 
-$book_id = $book['id'];
+$book_id = $b['id'];
 
-/* CHECK BORROW RECORD */
+// ✅ CHECK ACTIVE BORROW
+$borrow = $conn->prepare("
+SELECT id FROM borrow 
+WHERE student_id=? AND book_id=? AND status=1
+");
+$borrow->execute([$student_id,$book_id]);
 
-$borrow_check = $conn->prepare("SELECT id FROM borrow WHERE student_id=? AND book_id=? AND status=1");
-$borrow_check->execute([$student_id,$book_id]);
-
-if($borrow_check->rowCount() == 0){
-
+if($borrow->rowCount()==0){
 $msg = "notborrowed";
-
 }else{
 
-$borrow = $borrow_check->fetch(PDO::FETCH_ASSOC);
-$borrow_id = $borrow['id'];
-
-/* INSERT RETURN */
+$row = $borrow->fetch(PDO::FETCH_ASSOC);
+$borrow_id = $row['id'];
 
 $date = date("Y-m-d");
 
-$insert = $conn->prepare("INSERT INTO returns (student_id, book_id, date_return) VALUES (?,?,?)");
-$insert->execute([$student_id,$book_id,$date]);
+// ✅ INSERT RETURN
+$conn->prepare("
+INSERT INTO returns (student_id, book_id, date_return)
+VALUES (?,?,?)
+")->execute([$student_id,$book_id,$date]);
 
-/* UPDATE BOOK STATUS */
+// ✅ UPDATE BORROW STATUS → CLOSED
+$conn->prepare("UPDATE borrow SET status=0 WHERE id=?")
+->execute([$borrow_id]);
 
-$update_book = $conn->prepare("UPDATE books SET status=0 WHERE id=?");
-$update_book->execute([$book_id]);
-
-/* UPDATE BORROW STATUS */
-
-$update_borrow = $conn->prepare("UPDATE borrow SET status=0 WHERE id=?");
-$update_borrow->execute([$borrow_id]);
+// ✅ UPDATE BOOK → AVAILABLE
+$conn->prepare("UPDATE books SET status=1 WHERE id=?")
+->execute([$book_id]);
 
 $msg = "success";
 
 }
-
 }
-
 }
 
 }catch(PDOException $e){
-
 $msg = "error";
-
 }
-
 }
-
 }
 ?>
 
@@ -201,9 +191,9 @@ cursor:pointer;
 <form id="bookForm" method="POST">
 
 <div class="form-group">
-<label>Student ID</label>
-<input type="text" name="student_id" id="student_id" class="form-control" placeholder="Enter Student ID">
-<small class="error" id="student_error"></small>
+<label>Email</label>
+<input type="email" name="email" id="email" class="form-control" placeholder="Enter Student Email">
+<small class="error" id="email_error"></small>
 </div>
 
 <div class="form-group">
@@ -228,48 +218,53 @@ cursor:pointer;
 <div class="box1-body">
 
 <table class="table">
-<h1 style="text-align:center; font-size:32px;">All Returns</h1>
+<h1 style="text-align:center; font-size:32px;">All Return Status</h1>
 <br>
+
+<table class="table">
+
 <thead>
 <tr>
-<th>Student ID</th>
+<th>Email</th>
 <th>ISBN</th>
 <th>First Name</th>
 <th>Last Name</th>
-<th>Return Date</th>
+<th>Borrow Date</th>
 </tr>
 </thead>
 
 <tbody>
-
 <?php
-
 $stmt = $conn->prepare("
 SELECT 
-returns.student_id,
-books.isbn,
+students.email,
 students.firstname,
 students.lastname,
+books.isbn,
 returns.date_return
+
 FROM returns
 JOIN students ON returns.student_id = students.id
 JOIN books ON returns.book_id = books.id
+
 ");
 
 $stmt->execute();
 
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+
 echo "
 <tr>
-<td>{$row['student_id']}</td>
+<td>{$row['email']}</td>
 <td>{$row['isbn']}</td>
 <td>{$row['firstname']}</td>
 <td>{$row['lastname']}</td>
 <td>{$row['date_return']}</td>
+
 </tr>";
 }
-
 ?>
+
 
 </tbody>
 </table>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2026 at 08:19 AM
+-- Generation Time: Apr 11, 2026 at 08:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -110,6 +110,20 @@ INSERT INTO `borrow` (`id`, `student_id`, `book_id`, `date_borrow`, `status`) VA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `otp` varchar(6) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `returns`
 --
 
@@ -169,13 +183,13 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `firstname`, `lastname`, `created_on`, `email`, `password`, `gender`, `mobile`) VALUES
-(18, 'Krish', 'Thummar', '2026-03-23', 'krishthumar6506@gmail.com', '$2y$10$delVDJ071yhmjX46tb.MiuthQKMvNDe.9VRxm92F4s1e7F7fufUFi', 'Male', '0989865440'),
+(18, 'Krish', 'Thummar', '2026-03-23', 'krishthumar6506@gmail.com', '$2y$10$1XUjYA9VAWNAIESEvrKvmuTQCSg4xPrNXesDaFN9.TRQDJ/rpYKAi', 'Male', '0989865440'),
 (19, 'Krish', 'Thummar', '2026-04-02', 'kthummar467@gmail.com', '$2y$10$MULLHfyMx8wf00.7lZu9bOBmfESUTamVwxb030mA.97JthUwP9g4a', 'Male', '4564564566'),
 (20, 'khushaal', 'vamja', '2026-04-03', 'kvamja751@rku.ac.in', '$2y$10$ERiOS8DQflGwKBQlGgHEru6mBau2XmoCcqsSn.JJLV.f2xZApI6ey', 'Male', '9016891845'),
 (21, 'Avani', 'Rathod', '2026-04-03', 'avanirathod1111@gmail.com', '$2y$10$B3ySGwa2GHtZvpkySExmau92N1wBRZ5dN7vUs2bj0OYZrXRKvYAeW', 'Female', '1234567890'),
 (22, 'Aastha', 'Patel', '2026-04-03', 'apatel785@rku.ac.in', '$2y$10$I.5p.aZ1WG9HFvV.JRwmrOQv6W1c6yogHFyKTuUzTMs2MNaglKuZW', 'Female', '9876543210'),
 (23, 'dhaval', 'kanjariya', '2026-04-08', 'dkanjariya00@gmail.com', '$2y$10$ZDcdGRJEd69FEmTBrh8FoOhnjzBn9v9gaRQcJZai096Dp93EDEAuS', 'Male', '1234567890'),
-(24, 'Page', 'Turner', '2026-04-11', 'pageturner899@gmail.com', '$2y$10$XzQ/i3FOBPEQMs3bzX9rAuM2DxMUbYyOO2pnlsgOB8tZcPZwLfC.a', 'Male', '1234567890');
+(24, 'Page', 'Turner', '2026-04-11', 'pageturner899@gmail.com', '$2y$10$jCHWOCBEQLoVpelKrXjXd.QjmqrzrEb.R.k8jQ.lbOj5lOiekUBB6', 'Male', '1234567890');
 
 --
 -- Indexes for dumped tables
@@ -193,6 +207,13 @@ ALTER TABLE `books`
 --
 ALTER TABLE `borrow`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `email` (`email`);
 
 --
 -- Indexes for table `returns`
@@ -221,6 +242,12 @@ ALTER TABLE `books`
 --
 ALTER TABLE `borrow`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `returns`

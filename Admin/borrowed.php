@@ -1,5 +1,5 @@
-<?php
-session_start();
+<?php 
+session_start(); 
 include '../components/connect.php';
 
 $msg = "";
@@ -11,65 +11,64 @@ if (!isset($_COOKIE['admin_id'])) {
 
 if(isset($_POST['add'])){
 
-$student_id = trim($_POST['student_id']);
-$isbn = trim($_POST['isbn']);
+    $email = trim($_POST['email']);
+    $isbn  = trim($_POST['isbn']);
 
-if($student_id != '' && $isbn != ''){
+    if($email != '' && $isbn != ''){
 
-try{
+        try{
 
-$student_check = $conn->prepare("SELECT id FROM students WHERE id = ?");
-$student_check->execute([$student_id]);
+            // ✅ CHECK STUDENT
+            $student = $conn->prepare("SELECT id FROM students WHERE email=?");
+            $student->execute([$email]);
+            $stu = $student->fetch(PDO::FETCH_ASSOC);
 
-if($student_check->rowCount() == 0){
+            if(!$stu){
+                $msg = "student";
+            }else{
 
-$msg = "student";
+                $student_id = $stu['id'];
 
-}else{
+                // ✅ CHECK BOOK
+                $book = $conn->prepare("SELECT id, status FROM books WHERE isbn=?");
+                $book->execute([$isbn]);
+                $b = $book->fetch(PDO::FETCH_ASSOC);
 
-$stmt = $conn->prepare("SELECT id FROM books WHERE isbn = ?");
-$stmt->execute([$isbn]);
-$book = $stmt->fetch(PDO::FETCH_ASSOC);
+                if(!$b){
+                    $msg = "book";
+                }else{
 
-if(!$book){
+                    $book_id = $b['id'];
 
-$msg = "book";
+                    // ✅ CHECK BOOK STATUS
+                    if($b['status'] == 0){
+                        $msg = "borrowed";
+                    }else{
 
-}else{
+                        $date = date("Y-m-d");
 
-$book_id = $book['id'];
+                        // ✅ INSERT BORROW
+                        $conn->prepare("
+                            INSERT INTO borrow (student_id, book_id, date_borrow, status)
+                            VALUES (?,?,?,1)
+                        ")->execute([$student_id,$book_id,$date]);
 
-$checkBorrow = $conn->prepare("SELECT * FROM borrow WHERE book_id=? AND status=1");
-$checkBorrow->execute([$book_id]);
+                        // ✅ UPDATE BOOK → BORROWED
+                        $conn->prepare("UPDATE books SET status=0 WHERE id=?")
+                        ->execute([$book_id]);
 
-if($checkBorrow->rowCount() > 0){
+                        $msg = "success";
+                    }
+                }
+            }
 
-$msg = "borrowed";
-
-}else{
-
-$date = date("Y-m-d");
-$status = 1;
-
-$insert = $conn->prepare("INSERT INTO borrow (student_id, book_id, date_borrow, status) VALUES (?,?,?,?)");
-$insert->execute([$student_id, $book_id, $date, $status]);
-
-$msg = "success";
-
-}
-
-}
-
-}
-
-}catch(PDOException $e){
-$msg = "error";
-}
-
-}
-
+        }catch(PDOException $e){
+            $msg = "error";
+        }
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,82 +81,69 @@ $msg = "error";
 <link rel="stylesheet" href="../components/admin_style.css">
 
 <style>
-
 .container{
-width:100%;
-max-width:500px;
+    width:100%;
+    max-width:500px;
 }
-
 .box{
-padding:25px;
-margin-left:330px;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.15);
+    padding:25px;
+    margin-left:330px;
+    border-radius:10px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
 }
-
 ::placeholder{
-color:#999;
-font-size:14px;
+    color:#999;
+    font-size:14px;
 }
-
 .error{
-color:red;
-font-size:15px;
-font-weight:700;
-display:block;
-margin-top:4px;
+    color:red;
+    font-size:15px;
+    font-weight:700;
+    display:block;
+    margin-top:4px;
 }
-
 .form-control{
-transition:0.3s ease;
+    transition:0.3s ease;
 }
-
 .form-control:focus{
-outline:none;
-border:2px solid #9c6130;
-box-shadow:0 0 5px rgba(156,97,48,0.3);
+    outline:none;
+    border:2px solid #9c6130;
+    box-shadow:0 0 5px rgba(156,97,48,0.3);
 }
-
 .col-md-8{
-width:98%;
-padding:20px;
+    width:98%;
+    padding:20px;
 }
-
 .box1{
-background:#dbccccf7;
-border-radius:6px;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    background:#dbccccf7;
+    border-radius:6px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
-
 .box1-body{
-padding:15px;
+    padding:15px;
 }
-
 table{
-width:100%;
-border-collapse:collapse;
+    width:100%;
+    border-collapse:collapse;
 }
-
 .table thead th{
-background:#bfb0b0fd;
-font-weight:600;
-font-size:14px;
-padding:12px;
-text-align:left;
-border-bottom:1px solid #ddd;
+    background:#bfb0b0fd;
+    font-weight:600;
+    font-size:14px;
+    padding:12px;
+    text-align:left;
+    border-bottom:1px solid #ddd;
 }
-
 .table tbody td{
-padding:12px;
-border-bottom:1px solid #eee;
-font-size:14px;
+    padding:12px;
+    border-bottom:1px solid #eee;
+    font-size:14px;
 }
-
 .btn{
-border:none;
-padding:7px 10px;
-border-radius:4px;
-cursor:pointer;
+    border:none;
+    padding:7px 10px;
+    border-radius:4px;
+    cursor:pointer;
 }
 </style>
 </head>
@@ -175,9 +161,9 @@ cursor:pointer;
 <form id="bookForm" method="POST">
 
 <div class="form-group">
-<label>Student_id</label>
-<input type="text" name="student_id" id="student_id" class="form-control" placeholder="Enter Student ID">
-<small class="error" id="title_error"></small>
+<label>Email</label>
+<input type="email" name="email" id="email" class="form-control" placeholder="Enter Student Email">
+<small class="error" id="email_error"></small>
 </div>
 
 <div class="form-group">
@@ -191,20 +177,21 @@ cursor:pointer;
 </button>
 
 </form>
-
 </div>
 </div>
 
+<!-- TABLE -->
 <div class="col-md-8">
-  <div class="box1">
-    <div class="box1-body">
+<div class="box1">
+<div class="box1-body">
 
-      <table class="table">
-<h1 style="text-align:center; font-size:32px;">All Borrows</h1>
+<h1 style="text-align:center; font-size:32px;">All Borrows Status</h1>
 <br><br>
-        <thead>
+
+<table class="table">
+<thead>
           <tr>
-            <th>Student ID</th>
+            <th>Email</th>
             <th>ISBN</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -214,13 +201,23 @@ cursor:pointer;
         <tbody>
 
         <?php
-        $stmt = $conn->prepare("SELECT borrow.student_id, books.isbn, students.firstname, students.lastname, borrow.date_borrow FROM borrow JOIN students ON borrow.student_id = students.id JOIN books ON borrow.book_id = books.id");
+        $stmt = $conn->prepare("SELECT 
+students.email,
+students.firstname,
+students.lastname,
+books.isbn,
+borrow.date_borrow
+
+FROM borrow
+JOIN students ON borrow.student_id = students.id
+JOIN books ON borrow.book_id = books.id
+");
         $stmt->execute();
 
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
           echo "
           <tr>
-            <td>{$row['student_id']}</td>
+            <td>{$row['email']}</td>
             <td>{$row['isbn']}</td>
             <td>{$row['firstname']}</td>
             <td>{$row['lastname']}</td>
@@ -229,11 +226,12 @@ cursor:pointer;
         }
         ?>
 
-        </tbody>
-      </table>
 
-    </div>
-  </div>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
 
 <script>
@@ -241,88 +239,74 @@ $(document).ready(function(){
 
 $("#bookForm").submit(function(e){
 
-var valid = true;
+    var valid = true;
+    var email = $("#email").val().trim();
+    var isbn  = $("#isbn").val().trim();
 
-var student_id = $("#student_id").val().trim();
-var isbn = $("#isbn").val().trim();
+    var email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var number_pattern = /^[0-9]+$/;
 
-var number_pattern = /^[0-9]+$/;
+    $(".error").text("");
+    $(".form-control").css("border","1px solid #ccc");
 
-$(".error").text("");
-$(".form-control").css("border","1px solid #ccc");
+    // ✅ Email Validation
+    if(email == ""){
+        $("#email_error").text("Email required");
+        $("#email").css("border","2px solid red");
+        valid = false;
+    } else if(!email_pattern.test(email)){
+        $("#email_error").text("Invalid email format");
+        $("#email").css("border","2px solid red");
+        valid = false;
+    } else{
+        $("#email").css("border","2px solid green");
+    }
 
-/* Student ID Validation */
+    // ✅ ISBN Validation
+    if(isbn == ""){
+        $("#isbn_error").text("ISBN required");
+        $("#isbn").css("border","2px solid red");
+        valid = false;
+    } else if(!number_pattern.test(isbn)){
+        $("#isbn_error").text("Numbers only");
+        $("#isbn").css("border","2px solid red");
+        valid = false;
+    } else{
+        $("#isbn").css("border","2px solid green");
+    }
 
-if(student_id == ""){
-$("#title_error").text("Student ID required");
-$("#student_id").css("border","2px solid red");
-valid = false;
-}
-else if(!number_pattern.test(student_id)){
-$("#title_error").text("Numbers only");
-$("#student_id").css("border","2px solid red");
-valid = false;
-}
-else{
-$("#student_id").css("border","2px solid green");
-}
-
-/* ISBN Validation */
-
-if(isbn == ""){
-$("#isbn_error").text("ISBN required");
-$("#isbn").css("border","2px solid red");
-valid = false;
-}
-else if(!number_pattern.test(isbn)){
-$("#isbn_error").text("Numbers only");
-$("#isbn").css("border","2px solid red");
-valid = false;
-}
-else{
-$("#isbn").css("border","2px solid green");
-}
-
-if(!valid){
-e.preventDefault();
-}
+    if(!valid){
+        e.preventDefault();
+    }
 
 });
-
 });
 </script>
-</body>
+
+<!-- SWEET ALERT -->
 <script>
 
 <?php if($msg=="student"){ ?>
-
-swal("Error","Student ID not found","error");
-
+swal("Error","Student email not found","error");
 <?php } ?>
 
 <?php if($msg=="book"){ ?>
-
 swal("Error","Book not found with this ISBN","error");
-
 <?php } ?>
 
 <?php if($msg=="borrowed"){ ?>
-
 swal("Warning","This book is already borrowed","warning");
-
 <?php } ?>
 
 <?php if($msg=="success"){ ?>
-
 swal("Success","Book Borrowed Successfully","success");
-
 <?php } ?>
 
 <?php if($msg=="error"){ ?>
-
 swal("Error","Database Error","error");
-
 <?php } ?>
 
 </script>
+
+</body>
 </html>

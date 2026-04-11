@@ -142,7 +142,7 @@ Page Turner
 </div>
 
 <div class='footer'>
-© ".date('Y')." Online Library | All Rights Reserved
+© 2026 Page Turner | All Rights Reserved
 </div>
 
 </div>

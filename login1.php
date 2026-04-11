@@ -137,8 +137,6 @@ confirmButtonColor:'#764ba2'
 
 <input type="submit" name="login" value="Login Now" class="btn">
 
-<a href="forgot_password.php" style="display:block; margin-top:15px; color:#764ba2; text-decoration:none; font-size:14px;">Forgot Password?</a>
-
 </form>
 
 </section>

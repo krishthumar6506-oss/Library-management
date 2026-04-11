@@ -181,8 +181,8 @@ body {
             <i class="fa-solid fa-circle-info"></i> <span class="d-none d-md-inline">About</span>
         </a>
 
-        <a href="Notes.php" class="but">
-            <i class="fa-solid fa-book"></i> <span class="d-none d-md-inline">Notes</span>
+        <a href="notice.php" class="but">
+            <i class="fa-solid fa-book"></i> <span class="d-none d-md-inline">Notices</span>
         </a>
 
         <a href="login.php" class="but">
