@@ -18,19 +18,11 @@
 <style>
 /* Base Table Styling */
 .col-md-8{
-  width: 98%;
-  padding: 20px;
+  padding: 0;
   margin: 0 auto;
 }
 
-.box1{
-  background: #dbccccfa;
-  border-radius:6px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.08);
-}
-
 .box1-body{
-  padding:15px;
   overflow-x: auto; /* allow horizontal scroll on small screens */
 }
 
@@ -38,29 +30,6 @@ table{
   width:100%;
   border-collapse:collapse;
   min-width: 600px; /* prevents columns from collapsing too much */
-}
-
-.table thead th{
-  background: #bfb0b0fa;
-  font-weight:600;
-  font-size: 14px;
-  padding:12px;
-  text-align:left;
-  border-bottom:1px solid #ddd;
-}
-
-.table tbody td{
-  padding:12px;
-  border-bottom:1px solid #eee;
-  font-size:14px;
-  word-break: break-word; /* wrap long content */
-}
-
-.btn{
-  border:none;
-  padding:7px 10px;
-  border-radius:4px;
-  cursor:pointer;
 }
 
 .btn-sm{
@@ -119,7 +88,6 @@ table{
 @media (max-width: 767px){
   .col-md-8{
     width: 100%;
-    padding: 10px;
   }
   .table{
     display: block;
@@ -166,8 +134,9 @@ table{
     <div class="box1">
       <div class="box1-body">
 
+        <h1 class="admin-page-title">All Students</h1>
+        <p class="admin-page-subtitle">Manage student records, contact details, and profile updates.</p>
         <table id="example1" class="table table-bordered table-striped">
-          <h1 style="text-align:center; font-size:32px;">All Students </h1><br><br>
           <thead>
             <tr>
               <th>Firstname</th>

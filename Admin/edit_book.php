@@ -54,53 +54,20 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 <link rel="stylesheet" href="../components/admin_style.css">
 
 <style>
-
 .container{
-width:100%;
-max-width:500px;
+max-width:68rem;
 }
 
 .box{
-padding:25px;
-margin-left:330px;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.15);
-}
-
-::placeholder{
-color:#999;
-font-size:14px;
+padding:2.8rem;
 }
 
 .error{
-color:red;
-font-size:15px;
-font-weight:700;
-display:block;
-margin-top:4px;
+font-size:1.25rem;
 }
 
 .form-control{
-transition:0.3s ease;
-}
-
-.form-control:focus{
-outline:none;
-border:2px solid #9c6130;
-box-shadow:0 0 5px rgba(156,97,48,0.3);
-}
-
-.btn{
-border:none;
-padding:8px 12px;
-border-radius:4px;
-cursor:pointer;
-background:#00a65a;
-color:#fff;
-}
-
-.btn:hover{
-background:#008d4c;
+min-height:5rem;
 }
 
 </style>
@@ -110,11 +77,11 @@ background:#008d4c;
 
 <?php include '../components/admin_header.php'; ?>
 
-<div class="container">
+<div class="container admin-page-shell">
 <div class="box">
 
-<h1 style="text-align:center; font-size:32px;">Edit Book</h1>
-<br><br>
+<h1 class="admin-page-title">Edit Book</h1>
+<p class="admin-page-subtitle">Update the core details for this catalog entry.</p>
 
 <form id="bookForm" method="POST">
 

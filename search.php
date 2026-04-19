@@ -1,42 +1,113 @@
 <?php 
-session_start();  
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if(!isset($_SESSION['student_id'])){
     header("Location: login.php");
     exit();
-}  
+}
 
-include 'components/connect.php';  
+include 'components/connect.php';
 
-$search = ''; 
-$books = [];  
+$student_id = (int) $_SESSION['student_id'];
+$search = '';
+$books = [];
+$success = '';
+$error = '';
 
 try {
+    $conn->exec("
+        CREATE TABLE IF NOT EXISTS book_requests (
+            id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            student_id INT(11) NOT NULL,
+            book_id INT(11) NOT NULL,
+            request_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            status VARCHAR(20) NOT NULL DEFAULT 'Pending'
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+    ");
+
+    if (isset($_POST['request_book'])) {
+        $book_id = (int) ($_POST['book_id'] ?? 0);
+
+        if ($book_id <= 0) {
+            $error = "Invalid book request.";
+        } else {
+            $book_stmt = $conn->prepare("SELECT id, title, status FROM books WHERE id = ?");
+            $book_stmt->execute([$book_id]);
+            $book = $book_stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$book) {
+                $error = "Book not found.";
+            } elseif ((int) $book['status'] === 1) {
+                $error = "This book is available now, so request is not needed.";
+            } else {
+                $check_stmt = $conn->prepare("
+                    SELECT id FROM book_requests
+                    WHERE student_id = ? AND book_id = ? AND status = 'Pending'
+                ");
+                $check_stmt->execute([$student_id, $book_id]);
+
+                if ($check_stmt->fetch()) {
+                    $error = "You already requested this book.";
+                } else {
+                    $insert_stmt = $conn->prepare("
+                        INSERT INTO book_requests (student_id, book_id, status)
+                        VALUES (?, ?, 'Pending')
+                    ");
+                    $insert_stmt->execute([$student_id, $book_id]);
+                    $success = "Request sent for \"" . $book['title'] . "\".";
+                }
+            }
+        }
+    }
 
     if(isset($_GET['search']) && $_GET['search'] !== ''){
         $search = trim($_GET['search']);
 
         $stmt = $conn->prepare("
-            SELECT * FROM books 
-            WHERE publisher LIKE :search 
-            OR isbn LIKE :search 
-            OR title LIKE :search 
-            OR author LIKE :search
+            SELECT books.*,
+                   EXISTS(
+                       SELECT 1
+                       FROM book_requests
+                       WHERE book_requests.book_id = books.id
+                         AND book_requests.student_id = :student_id
+                         AND book_requests.status = 'Pending'
+                   ) AS already_requested
+            FROM books
+            WHERE publisher LIKE :search
+               OR isbn LIKE :search
+               OR title LIKE :search
+               OR author LIKE :search
+            ORDER BY title ASC
         ");
 
         $like = "%$search%";
-        $stmt->bindParam(':search',$like,PDO::PARAM_STR);
+        $stmt->bindParam(':student_id', $student_id, PDO::PARAM_INT);
+        $stmt->bindParam(':search', $like, PDO::PARAM_STR);
         $stmt->execute();
 
     } else {
-        $stmt = $conn->prepare("SELECT * FROM books");
+        $stmt = $conn->prepare("
+            SELECT books.*,
+                   EXISTS(
+                       SELECT 1
+                       FROM book_requests
+                       WHERE book_requests.book_id = books.id
+                         AND book_requests.student_id = :student_id
+                         AND book_requests.status = 'Pending'
+                   ) AS already_requested
+            FROM books
+            ORDER BY title ASC
+        ");
+        $stmt->bindParam(':student_id', $student_id, PDO::PARAM_INT);
         $stmt->execute();
     }
 
     $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch(PDOException $e){
-    echo "Database Error: ".$e->getMessage();
+    $error = "Database Error: " . $e->getMessage();
 }
 ?>
 
@@ -99,6 +170,28 @@ td{
 .is-valid{
     border:2px solid green!important;
 }
+
+.alert-wrap{
+    margin-bottom:20px;
+}
+
+.request-btn{
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    background:#dc3545;
+    color:#fff;
+    font-weight:600;
+}
+
+.request-btn:disabled{
+    background:#6c757d;
+    cursor:not-allowed;
+}
+
+.status-cell{
+    min-width:180px;
+}
 </style>
 </head>
 
@@ -107,6 +200,18 @@ td{
 <?php include 'components/headerr.php'; ?>
 
 <div class="container">
+
+<?php if($success !== ''): ?>
+    <div class="alert-wrap">
+        <div class="alert alert-success mb-0"><?= htmlspecialchars($success); ?></div>
+    </div>
+<?php endif; ?>
+
+<?php if($error !== ''): ?>
+    <div class="alert-wrap">
+        <div class="alert alert-danger mb-0"><?= htmlspecialchars($error); ?></div>
+    </div>
+<?php endif; ?>
 
 <!-- SEARCH FORM -->
 <form method="GET" id="searchForm" novalidate>
@@ -134,6 +239,7 @@ td{
     <th>Publisher</th>
     <th>Date</th>
     <th>Status</th>
+    <th>Request</th>
 </tr>
 </thead>
 
@@ -149,11 +255,25 @@ td{
         <td><?= htmlspecialchars($row['publish_date']); ?></td>
 
         <!-- STATUS COLUMN -->
-        <td>
+        <td class="status-cell">
             <?php if($row['status'] == 1): ?>
                 <span class="badge bg-success">Available</span>
             <?php else: ?>
                 <span class="badge bg-danger">Not Available</span>
+            <?php endif; ?>
+        </td>
+        <td>
+            <?php if($row['status'] == 0): ?>
+                <?php if((int) $row['already_requested'] === 1): ?>
+                    <button type="button" class="request-btn" disabled>Requested</button>
+                <?php else: ?>
+                    <form method="POST" class="m-0">
+                        <input type="hidden" name="book_id" value="<?= (int) $row['id']; ?>">
+                        <button type="submit" name="request_book" class="request-btn">Request Book</button>
+                    </form>
+                <?php endif; ?>
+            <?php else: ?>
+                <span class="text-success fw-semibold">No need</span>
             <?php endif; ?>
         </td>
     </tr>
@@ -161,7 +281,7 @@ td{
 
 <?php else: ?>
     <tr>
-        <td colspan="6" class="text-center">No results found</td>
+        <td colspan="7" class="text-center">No results found</td>
     </tr>
 <?php endif; ?>
 

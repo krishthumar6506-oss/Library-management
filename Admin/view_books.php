@@ -17,46 +17,7 @@ if(!isset($_COOKIE['admin_id'])){
 
 <style>
   .col-md-8{
-    width: 98%;
-    padding: 20px;
-  }
-
-  .box1{
-    background: #dbccccf7;
-    border-radius:6px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.08);
-  }
-
-  .box1-body{
-    padding:15px;
-  }
-
-  table{
-    width:100%;
-    border-collapse:collapse;
-  }
-
-  .table thead th{
-    background: #bfb0b0fd;
-    font-weight:600;
-    font-size: 14px;
-    padding:12px;
-    text-align:left;
-    border-bottom:1px solid #ddd;
-    position:relative;
-  }
-
-  .table tbody td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-    font-size:14px;
-  }
-
-  .btn{
-    border:none;
-    padding:7px 10px;
-    border-radius:4px;
-    cursor:pointer;
+    padding: 0;
   }
 
   .btn-sm{
@@ -90,13 +51,7 @@ if(!isset($_COOKIE['admin_id'])){
 @media (min-width: 1200px){
     .col-md-8{
         width: 80%;
-        padding: 20px;
         margin: 0 auto;
-    }
-    .table thead th,
-    .table tbody td{
-        font-size: 14px;
-        padding: 12px 15px;
     }
 }
 
@@ -104,12 +59,6 @@ if(!isset($_COOKIE['admin_id'])){
 @media (min-width: 768px) and (max-width: 1199px){
     .col-md-8{
         width: 90%;
-        padding: 15px;
-    }
-    .table thead th,
-    .table tbody td{
-        font-size: 13px;
-        padding: 10px 12px;
     }
 }
 
@@ -117,7 +66,6 @@ if(!isset($_COOKIE['admin_id'])){
 @media (max-width: 767px){
     .col-md-8{
         width: 100%;
-        padding: 10px;
     }
 
     .box1-body{
@@ -174,8 +122,9 @@ if(!isset($_COOKIE['admin_id'])){
   <div class="box1">
     <div class="box1-body">
 
-      <table class="table">
-        <h1 style="text-align:center; font-size:32px;">All Books</h1><br><br>
+        <h1 class="admin-page-title">All Books</h1>
+        <p class="admin-page-subtitle">Review, edit, and remove catalog items from the library collection.</p>
+        <table class="table">
         <thead>
           <tr>
             <th>ISBN</th>

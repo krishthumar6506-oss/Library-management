@@ -19,33 +19,7 @@ if (!isset($_COOKIE['admin_id'])) {
 
 <style>
 .col-md-8{
-width:98%;
-padding:20px;
-}
-
-.box1{
-background:#dbccccf7;
-border-radius:6px;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
-}
-
-.box1-body{
-padding:15px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th, td{
-padding:12px;
-font-size: 14px;
-border-bottom:1px solid #ddd;
-}
-
-th{
-background:#bfb0b0fd;
+padding:0;
 }
 </style>
 </head>
@@ -54,14 +28,14 @@ background:#bfb0b0fd;
 
 <?php include '../components/admin_header.php'; ?>
 
-<div class="col-md-8">
+<div class="col-md-8 admin-table-shell">
 <div class="box1">
 <div class="box1-body">
 
-<h1 style="text-align:center; font-size:32px;">Borrow & Return Records</h1>
-<br>
-
-<table>
+<h1 class="admin-page-title">Borrow & Return Records</h1>
+<p class="admin-page-subtitle">A full history of borrowed books and whether they have been returned.</p>
+<div class="admin-table-wrap">
+<table class="table">
 
 <thead>
 <tr>
@@ -101,7 +75,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 
 $returnDate = $row['date_return'] 
     ? $row['date_return'] 
-    : "<span style='color:gray;'>Not Returned</span>";
+    : "<span class='admin-status-muted'>Not Returned</span>";
 
 echo "
 <tr>
@@ -116,6 +90,7 @@ echo "
 
 </tbody>
 </table>
+</div>
 
 </div>
 </div>

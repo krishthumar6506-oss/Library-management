@@ -49,12 +49,12 @@ if (isset($_POST['add'])) {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'krishthumar6506@gmail.com';
-            $mail->Password   = 'gdwjmxsytojtcpwx';
+            $mail->Username   = 'pageturner899@gmail.com';
+            $mail->Password   = 'cntxxylgvqnsgjiw';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
-            $mail->setFrom('krishthumar6506@gmail.com', 'Student Management');
+            $mail->setFrom('pageturner899@gmail.com', 'Student Management');
             $mail->addAddress($email, "$firstname $lastname");
 
             $mail->isHTML(true);
@@ -185,38 +185,20 @@ Page Turner
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 
 <style>
-
-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-}
-
 .container{
-    width:100%;
-    max-width:500px;
+    max-width:72rem;
 }
 
 .box{
-    padding:25px;
-    border-radius:10px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.15);
+    padding:2.8rem;
 }
 
 .box-footer{
-    margin-top:10px;
-}
-
-::placeholder{
-   color:#999;
-   font-size:14px;
+    margin-top:1.2rem;
 }
 
 .text-danger{
-    color:red;
-    font-size:12px;
-    font-weight:700;
+    font-size:1.2rem;
 }
 
 </style>
@@ -238,13 +220,15 @@ if(isset($_SESSION['error'])){
 }
 ?>
 
-<div class="container">
+<div class="container admin-page-shell">
 
 <div class="box box-primary">
 
 <div class="box-header with-border">
 <h3 class="box-title">Add New Student</h3>
 </div>
+
+<p class="admin-page-subtitle">Register a student account and send their login details by email.</p>
 
 <form method="POST" id="studentForm">
 
@@ -273,13 +257,12 @@ if(isset($_SESSION['error'])){
 </div>
 
 <div class="form-group">
-<label>Gender</label><br>
-
+<label>Gender</label>
+<div class="admin-radio-row">
 <label><input type="radio" name="gender" value="Male"> Male</label>
 <label><input type="radio" name="gender" value="Female"> Female</label>
 <label><input type="radio" name="gender" value="Other"> Other</label>
-
-<br>
+</div>
 <small id="gender_error"></small>
 
 </div>

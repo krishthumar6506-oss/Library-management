@@ -22,71 +22,6 @@ if(isset($_COOKIE['admin_id'])){
 
    <link rel="stylesheet" href="../components/admin_style.css">
 </head>
-<style>
-   /* Large desktops */
-@media (min-width: 1200px){
-    body{
-        padding-left: 30rem;
-    }
-    .header{
-        width: 300px;
-        padding: 30px 20px;
-    }
-    .dashboard .box-container{
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-    }
-}
-
-/* Tablets / Medium devices */
-@media (min-width: 768px) and (max-width: 1199px){
-    body{
-        padding-left: 25rem;
-    }
-    .header{
-        width: 250px;
-        padding: 25px 15px;
-    }
-    .dashboard .box-container{
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-    .dashboard .box h3{
-        font-size: 24px;
-    }
-    .dashboard .box p{
-        font-size: 15px;
-    }
-}
-
-/* Mobile / Small devices */
-@media (max-width: 767px){
-    body{
-        padding-left: 0;
-        background-size: cover;
-    }
-    .header{
-        position: relative;
-        width: 100%;
-        padding: 15px;
-        border-right: none;
-    }
-    .dashboard .box-container{
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .dashboard .box h3{
-        font-size: 22px;
-    }
-    .dashboard .box p{
-        font-size: 14px;
-    }
-    .btn{
-        font-size: 14px;
-        padding: 8px 12px;
-    }
-}
-</style>
 <body>
 
 <?php include '../components/admin_header.php'; ?>
@@ -94,6 +29,7 @@ if(isset($_COOKIE['admin_id'])){
 <section class="dashboard">
 
    <h1 class="heading">Dashboard</h1>
+   <p class="admin-page-subtitle">A quick overview of students, books, borrows, returns, and request activity.</p>
 
    <div class="box-container">
 
@@ -144,6 +80,41 @@ if(isset($_COOKIE['admin_id'])){
       <h3><?= $count_users; ?></h3>
       <p>Total Return Books</p>
       <a href="returned.php" class="btn">View Return Books</a>
+   </div>
+
+   <div class="box">
+      <?php
+         $select_users = $conn->prepare("SELECT * FROM `books`");
+         $select_users->execute();
+         $count_users = $select_users->rowCount();
+      ?>
+      <h3><?= $count_users; ?></h3>
+      <p>Books Status</p>
+      <a href="book_status.php" class="btn">All Books Status</a>
+   </div>
+
+   <div class="box">
+      <?php
+         try{
+            $conn->exec("
+               CREATE TABLE IF NOT EXISTS book_requests (
+                  id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                  student_id INT(11) NOT NULL,
+                  book_id INT(11) NOT NULL,
+                  request_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  status VARCHAR(20) NOT NULL DEFAULT 'Pending'
+               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+            ");
+            $select_requests = $conn->prepare("SELECT * FROM `book_requests`");
+            $select_requests->execute();
+            $count_requests = $select_requests->rowCount();
+         } catch(PDOException $e){
+            $count_requests = 0;
+         }
+      ?>
+      <h3><?= $count_requests; ?></h3>
+      <p>Book Requests</p>
+      <a href="book_requests.php" class="btn">View Requests</a>
    </div>
 
 

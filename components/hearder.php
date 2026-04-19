@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -190,6 +192,10 @@ body {
     </a>
 
     <?php if(isset($_SESSION['student_id'])) { ?>
+
+        <a href="payment.php" class="but">
+            <i class="fa-solid fa-wallet"></i> <span class="d-none d-md-inline">Payment</span>
+        </a>
 
         <span class="but">
             <i class="fa-solid fa-user"></i> 

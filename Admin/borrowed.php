@@ -82,68 +82,19 @@ if(isset($_POST['add'])){
 
 <style>
 .container{
-    width:100%;
-    max-width:500px;
+    max-width:68rem;
 }
 .box{
-    padding:25px;
-    margin-left:330px;
-    border-radius:10px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.15);
-}
-::placeholder{
-    color:#999;
-    font-size:14px;
+    padding:2.8rem;
 }
 .error{
-    color:red;
-    font-size:15px;
-    font-weight:700;
-    display:block;
-    margin-top:4px;
+font-size:1.25rem;
 }
 .form-control{
-    transition:0.3s ease;
-}
-.form-control:focus{
-    outline:none;
-    border:2px solid #9c6130;
-    box-shadow:0 0 5px rgba(156,97,48,0.3);
+    min-height:5rem;
 }
 .col-md-8{
-    width:98%;
-    padding:20px;
-}
-.box1{
-    background:#dbccccf7;
-    border-radius:6px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.08);
-}
-.box1-body{
-    padding:15px;
-}
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-.table thead th{
-    background:#bfb0b0fd;
-    font-weight:600;
-    font-size:14px;
-    padding:12px;
-    text-align:left;
-    border-bottom:1px solid #ddd;
-}
-.table tbody td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-    font-size:14px;
-}
-.btn{
-    border:none;
-    padding:7px 10px;
-    border-radius:4px;
-    cursor:pointer;
+    padding:0;
 }
 </style>
 </head>
@@ -152,11 +103,11 @@ table{
 
 <?php include '../components/admin_header.php'; ?>
 
-<div class="container">
+<div class="container admin-page-shell">
 <div class="box">
 
-<h1 style="text-align:center; font-size:32px;">Book Borrow</h1>
-<br><br>
+<h1 class="admin-page-title">Book Borrow</h1>
+<p class="admin-page-subtitle">Issue a book to a student using their email and the book ISBN.</p>
 
 <form id="bookForm" method="POST">
 
@@ -181,13 +132,14 @@ table{
 </div>
 
 <!-- TABLE -->
-<div class="col-md-8">
+<div class="col-md-8 admin-table-shell">
 <div class="box1">
 <div class="box1-body">
 
-<h1 style="text-align:center; font-size:32px;">All Borrows Status</h1>
-<br><br>
+<h1 class="admin-page-title">All Borrow Records</h1>
+<p class="admin-page-subtitle">Recent borrow activity across the library.</p>
 
+<div class="admin-table-wrap">
 <table class="table">
 <thead>
           <tr>
@@ -229,6 +181,7 @@ JOIN books ON borrow.book_id = books.id
 
 </tbody>
 </table>
+</div>
 
 </div>
 </div>

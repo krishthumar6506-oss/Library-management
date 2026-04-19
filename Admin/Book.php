@@ -56,43 +56,20 @@ exit;
 <link rel="stylesheet" href="../components/admin_style.css">
 
 <style>
-
-body{
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
 .container{
-width:100%;
-max-width:500px;
+max-width:68rem;
 }
 
 .box{
-padding:25px;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.15);
+padding:2.8rem;
 }
-::placeholder{
-   color:#999;
-   font-size:14px;
-}
+
 .error{
-color:red;
-font-size:15px;
-font-weight:700;
-display:block;
-margin-top:4px;
+font-size:1.25rem;
 }
 
 .form-control{
-transition:0.3s ease;
-}
-
-.form-control:focus{
-outline:none;
-border:2px solid #9c6130;
-box-shadow:0 0 5px rgba(156,97,48,0.3);
+min-height:5rem;
 }
 
 </style>
@@ -102,11 +79,11 @@ box-shadow:0 0 5px rgba(156,97,48,0.3);
 
 <?php include '../components/admin_header.php'; ?>
 
-<div class="container">
+<div class="container admin-page-shell">
 <div class="box">
 
-<h1 style="text-align:center; margin-top:20px;">Add New Book</h1>
-<br><br>
+<h1 class="admin-page-title">Add New Book</h1>
+<p class="admin-page-subtitle">Create a polished catalog entry with title, author, publisher, and publish date.</p>
 
 <form id="bookForm" method="POST">
 

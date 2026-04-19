@@ -46,12 +46,15 @@ if(isset($_POST['submit'])){
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Manrope', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body{
     min-height: 100vh;
-    background: url("../img/back.jpg") no-repeat center center/cover;
+    background:
+        radial-gradient(circle at top left, rgba(249,115,22,0.22), transparent 26%),
+        radial-gradient(circle at top right, rgba(14,165,233,0.18), transparent 24%),
+        linear-gradient(135deg, #0f172a 0%, #1e293b 48%, #334155 100%);
 }
 
 .form-container{
@@ -59,57 +62,76 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 24px;
 }
 
 .form-container form{
     width: 100%;
-    max-width: 380px;
-    padding: 35px 30px;
-    background: #f2efeff5;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    text-align: center;
+    max-width: 430px;
+    padding: 38px 34px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 28px;
+    box-shadow: 0 28px 50px rgba(15,23,42,0.34);
+    text-align: left;
+    backdrop-filter: blur(12px);
 }
 
 .form-container form h3{
-    font-size: 26px;
-    margin-bottom: 25px;
-    font-weight: 600;
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: 800;
+    color: #142033;
+    letter-spacing: -0.03em;
+}
+
+.form-container form p{
+    margin-bottom: 24px;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
 }
 
 .form-container .box{
     width: 100%;
-    padding: 14px 18px;
+    padding: 15px 18px;
     margin: 12px 0;
-    border-radius: 30px;
-    border: 1px solid #ccc;
+    border-radius: 18px;
+    border: 1px solid rgba(148,163,184,0.45);
     font-size: 15px;
     outline: none;
-    transition: 0.3s ease;
+    color: #142033;
+    background: rgba(255,255,255,0.95);
+    transition: 0.25s ease;
+}
+
+.form-container .box:focus{
+    border-color: rgba(249,115,22,0.7);
+    box-shadow: 0 0 0 5px rgba(249,115,22,0.13);
 }
 
 .form-container .btn{
     width: 100%;
-    padding: 14px;
+    padding: 15px;
     margin-top: 20px;
     border: none;
-    border-radius: 30px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f97316, #fb923c);
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 800;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.25s ease;
     color: white;
+    box-shadow: 0 18px 30px rgba(249,115,22,0.28);
 }
 
 .form-container .btn:hover{
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 34px rgba(249,115,22,0.34);
 }
 
 .text-danger{
-    color: red;
+    color: #dc2626;
     font-size: 13px;
     display: block;
     text-align: left;
@@ -134,6 +156,7 @@ body{
 <form action="" method="POST" id="adminLogin" novalidate>
 
    <h3>Welcome Admin</h3>
+   <p>Sign in to manage books, students, returns, and library requests from one place.</p>
 
    <input type="text" id="username" name="username" placeholder="Enter Username" class="box">
    <small id="user_error"></small>

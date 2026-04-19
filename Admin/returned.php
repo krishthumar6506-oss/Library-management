@@ -3,6 +3,8 @@ session_start();
 include '../components/connect.php';
 
 $msg = "";
+$penalty_notice = "";
+$penalty_rate = 10;
 
 if (!isset($_COOKIE['admin_id'])) {
     header('Location: login.php');
@@ -19,6 +21,22 @@ $isbn  = trim($_POST['isbn']);
 if($email != '' && $isbn != ''){
 
 try{
+
+$conn->exec("
+CREATE TABLE IF NOT EXISTS penalties (
+id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+borrow_id INT(11) NOT NULL,
+student_id INT(11) NOT NULL,
+book_id INT(11) NOT NULL,
+due_date DATE NOT NULL,
+return_date DATE NOT NULL,
+late_days INT(11) NOT NULL DEFAULT 0,
+amount DECIMAL(10,2) NOT NULL DEFAULT 0,
+status VARCHAR(20) NOT NULL DEFAULT 'Unpaid',
+paid_at DATETIME DEFAULT NULL,
+created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+");
 
 // ✅ CHECK STUDENT
 $student = $conn->prepare("SELECT id FROM students WHERE email=?");
@@ -57,6 +75,19 @@ $row = $borrow->fetch(PDO::FETCH_ASSOC);
 $borrow_id = $row['id'];
 
 $date = date("Y-m-d");
+$borrow_info = $conn->prepare("SELECT date_borrow FROM borrow WHERE id=?");
+$borrow_info->execute([$borrow_id]);
+$borrow_data = $borrow_info->fetch(PDO::FETCH_ASSOC);
+
+$date_borrow = $borrow_data['date_borrow'];
+$due_date = date("Y-m-d", strtotime($date_borrow . " +7 days"));
+$late_days = 0;
+$penalty_amount = 0;
+
+if (strtotime($date) > strtotime($due_date)) {
+$late_days = (int) floor((strtotime($date) - strtotime($due_date)) / 86400);
+$penalty_amount = $late_days * $penalty_rate;
+}
 
 // ✅ INSERT RETURN
 $conn->prepare("
@@ -71,6 +102,27 @@ $conn->prepare("UPDATE borrow SET status=0 WHERE id=?")
 // ✅ UPDATE BOOK → AVAILABLE
 $conn->prepare("UPDATE books SET status=1 WHERE id=?")
 ->execute([$book_id]);
+
+if ($penalty_amount > 0) {
+$penalty_check = $conn->prepare("SELECT id FROM penalties WHERE borrow_id=? LIMIT 1");
+$penalty_check->execute([$borrow_id]);
+
+if ($penalty_check->rowCount() > 0) {
+$existing_penalty = $penalty_check->fetch(PDO::FETCH_ASSOC);
+$conn->prepare("
+UPDATE penalties
+SET due_date=?, return_date=?, late_days=?, amount=?, status='Unpaid', paid_at=NULL
+WHERE id=?
+")->execute([$due_date, $date, $late_days, $penalty_amount, $existing_penalty['id']]);
+} else {
+$conn->prepare("
+INSERT INTO penalties (borrow_id, student_id, book_id, due_date, return_date, late_days, amount, status)
+VALUES (?,?,?,?,?,?,?,'Unpaid')
+")->execute([$borrow_id, $student_id, $book_id, $due_date, $date, $late_days, $penalty_amount]);
+}
+
+$penalty_notice = " Late penalty generated: Rs. " . number_format($penalty_amount, 2) . " for " . $late_days . " late day(s).";
+}
 
 $msg = "success";
 
@@ -97,82 +149,24 @@ $msg = "error";
 <link rel="stylesheet" href="../components/admin_style.css">
 
 <style>
-
 .container{
-width:100%;
-max-width:500px;
+max-width:68rem;
 }
 
 .box{
-padding:25px;
-margin-left:330px;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.15);
-}
-
-::placeholder{
-color:#999;
-font-size:14px;
+padding:2.8rem;
 }
 
 .error{
-color:red;
-font-size:15px;
-font-weight:700;
-display:block;
-margin-top:4px;
+font-size:1.25rem;
 }
 
 .form-control{
-transition:0.3s ease;
-}
-
-.form-control:focus{
-outline:none;
-border:2px solid #9c6130;
-box-shadow:0 0 5px rgba(156,97,48,0.3);
+min-height:5rem;
 }
 
 .col-md-8{
-width:98%;
-padding:20px;
-}
-
-.box1{
-background:#dbccccf7;
-border-radius:6px;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
-}
-
-.box1-body{
-padding:15px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-.table thead th{
-background:#bfb0b0fd;
-font-weight:600;
-font-size:14px;
-padding:12px;
-text-align:left;
-border-bottom:1px solid #ddd;
-}
-
-.table tbody td{
-padding:12px;
-border-bottom:1px solid #eee;
-font-size:14px;
-}
-
-.btn{
-border:none;
-padding:7px 10px;
-border-radius:4px;
-cursor:pointer;
+padding:0;
 }
 
 </style>
@@ -182,11 +176,11 @@ cursor:pointer;
 
 <?php include '../components/admin_header.php'; ?>
 
-<div class="container">
+<div class="container admin-page-shell">
 <div class="box">
 
-<h1 style="text-align:center; font-size:32px;">Book Return</h1>
-<br><br>
+<h1 class="admin-page-title">Book Return</h1>
+<p class="admin-page-subtitle">Close an active borrow record and make the book available again.</p>
 
 <form id="bookForm" method="POST">
 
@@ -211,16 +205,15 @@ cursor:pointer;
 </div>
 </div>
 
-<div class="col-md-8">
+<div class="col-md-8 admin-table-shell">
 
 
 <div class="box1">
 <div class="box1-body">
 
-<table class="table">
-<h1 style="text-align:center; font-size:32px;">All Return Status</h1>
-<br>
-
+<h1 class="admin-page-title">All Return Records</h1>
+<p class="admin-page-subtitle">Track books that have already been returned.</p>
+<div class="admin-table-wrap">
 <table class="table">
 
 <thead>
@@ -229,23 +222,49 @@ cursor:pointer;
 <th>ISBN</th>
 <th>First Name</th>
 <th>Last Name</th>
-<th>Borrow Date</th>
+<th>Return Date</th>
+<th>Late Days</th>
+<th>Penalty</th>
+<th>Penalty Status</th>
 </tr>
 </thead>
 
 <tbody>
 <?php
+$conn->exec("
+CREATE TABLE IF NOT EXISTS penalties (
+id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+borrow_id INT(11) NOT NULL,
+student_id INT(11) NOT NULL,
+book_id INT(11) NOT NULL,
+due_date DATE NOT NULL,
+return_date DATE NOT NULL,
+late_days INT(11) NOT NULL DEFAULT 0,
+amount DECIMAL(10,2) NOT NULL DEFAULT 0,
+status VARCHAR(20) NOT NULL DEFAULT 'Unpaid',
+paid_at DATETIME DEFAULT NULL,
+created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+");
+
 $stmt = $conn->prepare("
 SELECT 
 students.email,
 students.firstname,
 students.lastname,
 books.isbn,
-returns.date_return
+returns.date_return,
+COALESCE(penalties.late_days, 0) AS late_days,
+COALESCE(penalties.amount, 0) AS penalty_amount,
+COALESCE(penalties.status, 'No Penalty') AS penalty_status
 
 FROM returns
 JOIN students ON returns.student_id = students.id
 JOIN books ON returns.book_id = books.id
+LEFT JOIN penalties
+ON penalties.student_id = returns.student_id
+AND penalties.book_id = returns.book_id
+AND penalties.return_date = returns.date_return
 
 ");
 
@@ -260,7 +279,9 @@ echo "
 <td>{$row['firstname']}</td>
 <td>{$row['lastname']}</td>
 <td>{$row['date_return']}</td>
-
+<td>{$row['late_days']}</td>
+<td>Rs. ".number_format((float) $row['penalty_amount'], 2)."</td>
+<td>{$row['penalty_status']}</td>
 </tr>";
 }
 ?>
@@ -268,6 +289,7 @@ echo "
 
 </tbody>
 </table>
+</div>
 
 </div>
 </div>
@@ -281,26 +303,27 @@ $("#bookForm").submit(function(e){
 
 var valid=true;
 
-var student_id=$("#student_id").val().trim();
+var email=$("#email").val().trim();
 var isbn=$("#isbn").val().trim();
 
+var email_pattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 var number_pattern=/^[0-9]+$/;
 
 $(".error").text("");
 $(".form-control").css("border","1px solid #ccc");
 
-if(student_id==""){
-$("#student_error").text("Student ID required");
-$("#student_id").css("border","2px solid red");
+if(email==""){
+$("#email_error").text("Email required");
+$("#email").css("border","2px solid red");
 valid=false;
 }
-else if(!number_pattern.test(student_id)){
-$("#student_error").text("Numbers only");
-$("#student_id").css("border","2px solid red");
+else if(!email_pattern.test(email)){
+$("#email_error").text("Invalid email format");
+$("#email").css("border","2px solid red");
 valid=false;
 }
 else{
-$("#student_id").css("border","2px solid green");
+$("#email").css("border","2px solid green");
 }
 
 if(isbn==""){
@@ -330,7 +353,7 @@ e.preventDefault();
 <script>
 
 <?php if($msg=="student"){ ?>
-swal("Error","Student ID not found","error");
+swal("Error","Student email not found","error");
 <?php } ?>
 
 <?php if($msg=="book"){ ?>
@@ -342,7 +365,7 @@ swal("Warning","This book was not borrowed","warning");
 <?php } ?>
 
 <?php if($msg=="success"){ ?>
-swal("Success","Book Returned Successfully","success");
+swal("Success","Book Returned Successfully<?php echo addslashes($penalty_notice); ?>","success");
 <?php } ?>
 
 <?php if($msg=="error"){ ?>
