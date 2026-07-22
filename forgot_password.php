@@ -38,13 +38,13 @@ if(isset($_POST['send_otp'])){
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'krishthumar6506@gmail.com'; // Replace with your Gmail
-            $mail->Password = 'gdwjmxsytojtcpwx'; // Replace with your App Password
+            $mail->Username = 'pageturner899@gmail.com'; // Replace with your Gmail
+            $mail->Password = 'cntxxylgvqnsgjiw'; // Replace with your App Password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
             
             // Recipients
-            $mail->setFrom('your-email@gmail.com', 'Library Management System');
+            $mail->setFrom('pageturner899@gmail.com', 'Library Management System');
             $mail->addAddress($email);
             
             // Content

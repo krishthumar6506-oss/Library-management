@@ -16,9 +16,9 @@ if(isset($_COOKIE['admin_id'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Dashboard</title>
+   <title>Page Turner - Admin Dashboard</title>
 
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+   <link rel="stylesheet" href="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css)">
 
    <link rel="stylesheet" href="../components/admin_style.css">
 </head>
@@ -28,14 +28,14 @@ if(isset($_COOKIE['admin_id'])){
 
 <section class="dashboard">
 
-   <h1 class="heading">Dashboard</h1>
+   <h1 class="heading">Page Turner Dashboard</h1>
    <p class="admin-page-subtitle">A quick overview of students, books, borrows, returns, and request activity.</p>
 
    <div class="box-container">
 
    <div class="box">
-   <h3>Welcome.</h3>
-   <p>Admin</p>
+   <h3>Welcome to Page Turner</h3>
+   <p>Admin Portal</p>
 </div>
 
     <div class="box">
@@ -117,11 +117,10 @@ if(isset($_COOKIE['admin_id'])){
       <a href="book_requests.php" class="btn">View Requests</a>
    </div>
 
-
    </div>
 
 </section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js)"></script>
 
 </body>
 </html>

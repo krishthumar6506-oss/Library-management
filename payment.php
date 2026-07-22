@@ -443,49 +443,49 @@ td, th{
                 <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
 
-            <form method="POST">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label" for="payment_for">Payment For</label>
-                        <select class="form-select" name="payment_for" id="payment_for" required>
-                            <option value="">Select payment type</option>
-                            <?php foreach ($fee_types as $value => $label): ?>
-                                <option value="<?php echo htmlspecialchars($value); ?>" <?php echo (isset($_POST['payment_for']) && $_POST['payment_for'] === $value) ? 'selected' : ''; ?>>
-                                    <?php echo htmlspecialchars($label); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+           <form method="POST" id="paymentForm">
+    <div class="row g-3">
 
-                    <div class="col-md-6">
-                        <label class="form-label" for="amount">Amount</label>
-                        <input type="number" min="1" step="0.01" class="form-control" name="amount" id="amount" placeholder="Enter amount" value="<?php echo htmlspecialchars($_POST['amount'] ?? ''); ?>" required>
-                    </div>
+        <div class="col-md-6">
+            <label class="form-label">Payment For</label>
+            <select class="form-select" name="payment_for" id="payment_for">
+                <option value="">Select payment type</option>
+                <?php foreach ($fee_types as $value => $label): ?>
+                    <option value="<?= $value; ?>"><?= $label; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label" for="payment_method">Payment Method</label>
-                        <select class="form-select" name="payment_method" id="payment_method" required>
-                            <option value="">Select payment method</option>
-                            <?php foreach ($payment_methods as $value => $label): ?>
-                                <option value="<?php echo htmlspecialchars($value); ?>" <?php echo (isset($_POST['payment_method']) && $_POST['payment_method'] === $value) ? 'selected' : ''; ?>>
-                                    <?php echo htmlspecialchars($label); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+        <div class="col-md-6">
+            <label class="form-label">Amount</label>
+            <input type="text" class="form-control" name="amount" id="amount" placeholder="Enter Amount">
+        </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label" for="transaction_ref">Transaction Reference</label>
-                        <input type="text" class="form-control" name="transaction_ref" id="transaction_ref" placeholder="Optional for cash" value="<?php echo htmlspecialchars($_POST['transaction_ref'] ?? ''); ?>">
-                    </div>
+        <div class="col-md-6">
+            <label class="form-label">Payment Method</label>
+            <select class="form-select" name="payment_method" id="payment_method">
+                <option value="">Select payment method</option>
+                <?php foreach ($payment_methods as $value => $label): ?>
+                    <option value="<?= $value; ?>"><?= $label; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-                    <div class="col-12">
-                        <button type="submit" name="pay_now" class="btn-pay">
-                            <i class="fa-solid fa-circle-check"></i> Submit Payment
-                        </button>
-                    </div>
-                </div>
-            </form>
+        <div class="col-md-6">
+            <label class="form-label">Transaction Reference</label>
+            <input type="text" class="form-control" name="transaction_ref" id="transaction_ref" placeholder="Optional for cash">
+        </div>
+
+        <div class="col-12">
+            <button type="submit" name="pay_now" class="btn-pay">
+                Submit Payment
+            </button>
+        </div>
+
+    </div>
+</form>
+
+
         </section>
     </div>
 
@@ -586,6 +586,80 @@ td, th{
         <?php endif; ?>
     </section>
 </div>
+<script>
+$(document).ready(function(){
+
+$("#paymentForm").submit(function(e){
+
+var valid=true;
+
+var payment_for=$("#payment_for").val().trim();
+var amount=$("#amount").val().trim();
+var payment_method=$("#payment_method").val().trim();
+var transaction_ref=$("#transaction_ref").val().trim();
+
+var amount_pattern=/^[0-9]+(\.[0-9]{1,2})?$/;
+var ref_pattern=/^[a-zA-Z0-9]+$/;
+
+$(".error").text("");
+$(".form-control, .form-select").css("border","1px solid #ccc");
+
+if(payment_for==""){
+$("#payment_for_error").text("Select payment type");
+$("#payment_for").css("border","2px solid red");
+valid=false;
+}
+else{
+$("#payment_for").css("border","2px solid green");
+}
+
+if(amount==""){
+$("#amount_error").text("Amount required");
+$("#amount").css("border","2px solid red");
+valid=false;
+}
+else if(!amount_pattern.test(amount) || parseFloat(amount)<=0){
+$("#amount_error").text("Enter valid amount");
+$("#amount").css("border","2px solid red");
+valid=false;
+}
+else{
+$("#amount").css("border","2px solid green");
+}
+
+if(payment_method==""){
+$("#payment_method_error").text("Select payment method");
+$("#payment_method").css("border","2px solid red");
+valid=false;
+}
+else{
+$("#payment_method").css("border","2px solid green");
+}
+
+if(payment_method!="cash"){
+if(transaction_ref==""){
+$("#transaction_ref_error").text("Reference required");
+$("#transaction_ref").css("border","2px solid red");
+valid=false;
+}
+else if(!ref_pattern.test(transaction_ref)){
+$("#transaction_ref_error").text("Letters & numbers only");
+$("#transaction_ref").css("border","2px solid red");
+valid=false;
+}
+else{
+$("#transaction_ref").css("border","2px solid green");
+}
+}
+
+if(!valid){
+e.preventDefault();
+}
+
+});
+
+});
+</script>
 
 <?php include 'components/footer.php'; ?>
 
