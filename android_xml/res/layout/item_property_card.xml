@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="164dp" android:layout_height="match_parent" android:layout_marginEnd="12dp" android:orientation="vertical" android:padding="7dp" android:background="@drawable/bg_card">
+    <View android:layout_width="match_parent" android:layout_height="98dp" android:background="@drawable/property_placeholder" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Skyline Terrace" android:textColor="@color/rentpe_navy" android:textSize="12sp" android:textStyle="bold" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="2 BHK • ₹24,000/month" android:textColor="@color/rentpe_muted" android:textSize="10sp" />
+</LinearLayout>

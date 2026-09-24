@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rentpe_blue">#2453EB</color>
+    <color name="rentpe_navy">#122054</color>
+    <color name="rentpe_text">#1D2550</color>
+    <color name="rentpe_muted">#8790A8</color>
+    <color name="rentpe_surface">#F6F7FC</color>
+    <color name="rentpe_border">#E9EBF3</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="76dp" android:layout_marginTop="10dp" android:orientation="horizontal" android:padding="8dp" android:background="@drawable/bg_card">
+    <View android:layout_width="60dp" android:layout_height="60dp" android:background="@drawable/property_placeholder" />
+    <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_marginStart="10dp" android:layout_weight="1" android:orientation="vertical">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cozy 2BHK Suite" android:textColor="@color/rentpe_navy" android:textSize="12sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="MG Road, Bangalore" android:textColor="@color/rentpe_muted" android:textSize="10sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="₹32,000/month" android:textColor="@color/rentpe_blue" android:textSize="10sp" android:textStyle="bold" />
+    </LinearLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="•••" android:textColor="@color/rentpe_muted" />
+</LinearLayout>
